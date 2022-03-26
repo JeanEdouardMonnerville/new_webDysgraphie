@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<analyse>
+    <token></token>
+    <typeAnalyse></typeAnalyse>
+    <patient>
+        <nom></nom>
+        <prenom></prenom>
+        <sexe></sexe>
+        <age></age>
+        <classe></classe>
+        <anonymat></anonymat>
+    </patient>
+    <materiel>
+        <materielType></materielType>
+    </materiel>
+    <autorisation>
+        <accord></accord>
+    </autorisation>
+    <tableau>
+        <points></points>
+        <vitesses></vitesses>
+        <accelereations></accelereations>
+        <jerks></jerks>
+        <tempsDebut></tempsDebut>
+    </tableau>
+</analyse>
