@@ -11,9 +11,9 @@ package petut.webDysgraphie.model;
  */
 public class Acceleration {
         private long x;
-    private long y;
+    private double y;
 
-    public Acceleration(long x, long y) {
+    public Acceleration(long x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -22,7 +22,7 @@ public class Acceleration {
         return x;
     }
 
-    public long getY() {
+    public double getY() {
         return y;
     }
 
@@ -30,7 +30,7 @@ public class Acceleration {
         this.x = x;
     }
 
-    public void setY(long y) {
+    public void setY(double y) {
         this.y = y;
     }
 

@@ -12,33 +12,18 @@ import java.util.ArrayList;
  * @author jemon
  */
 public class Jerks {
+ private ArrayList<Jerk> jerks;
 
-    private ArrayList<Double> jerk;
-    private ArrayList<Integer> temps;
-
-    public Jerks(ArrayList<Double> jerk, ArrayList<Integer> temps) {
-        this.jerk = jerk;
-        this.temps = temps;
+    public Jerks(ArrayList<Jerk> jerks) {
+        this.jerks = jerks;
     }
 
-    public ArrayList<Double> getJerk() {
-        return jerk;
+    public ArrayList<Jerk> getJerks() {
+        return jerks;
     }
 
-    public ArrayList<Integer> getTemps() {
-        return temps;
+    public void setJerks(ArrayList<Jerk> jerks) {
+        this.jerks = jerks;
     }
-
-    public void setJerk(ArrayList<Double> jerk) {
-        this.jerk = jerk;
-    }
-
-    public void setTemps(ArrayList<Integer> temps) {
-        this.temps = temps;
-    }
-
-    @Override
-    public String toString() {
-        return "GraphJerk{" + "jerk=" + jerk + ", temps=" + temps + '}';
-    }
+ 
 }

@@ -12,32 +12,18 @@ import java.util.ArrayList;
  * @author jemon
  */
 public class Accelerations {
-    private ArrayList<Double> acceleration;
-    private ArrayList<Integer> temps;
+    ArrayList<Acceleration> accelerations;
 
-    public Accelerations(ArrayList<Double> acceleration, ArrayList<Integer> temps) {
-        this.acceleration = acceleration;
-        this.temps = temps;
+    public Accelerations(ArrayList<Acceleration> accelerations) {
+        this.accelerations = accelerations;
     }
 
-    public ArrayList<Double> getAcceleration() {
-        return acceleration;
+    public ArrayList<Acceleration> getAccelerations() {
+        return accelerations;
     }
 
-    public ArrayList<Integer> getTemps() {
-        return temps;
+    public void setAccelerations(ArrayList<Acceleration> accelerations) {
+        this.accelerations = accelerations;
     }
-
-    public void setAcceleration(ArrayList<Double> acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    public void setTemps(ArrayList<Integer> temps) {
-        this.temps = temps;
-    }
-
-    @Override
-    public String toString() {
-        return "GraphAcceleration{" + "acceleration=" + acceleration + ", temps=" + temps + '}';
-    }
+    
 }

@@ -18,19 +18,60 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
 public class Tableau {
+
     //Paramètre
     private String version = "v.1.14";
     private double pixelToCm = 0.02646;
-    
+
     //Attribut
     private long tempsDebut;
     private Points points;
     private Vitesses vitesses;
     private Accelerations acceleration;
     private Jerks jerks;
-    
-    
-    
+
+    public Tableau(Points points) {
+        this.points = points;
+        calculerVitesseJerkAcceleration();
+    }
+
+    public Points getPoints() {
+        return points;
+    }
+
+    public Vitesses getVitesses() {
+        return vitesses;
+    }
+
+    public Accelerations getAcceleration() {
+        return acceleration;
+    }
+
+    public Jerks getJerks() {
+        return jerks;
+    }
+
+    public void setPoints(Points points) {
+        this.points = points;
+    }
+
+    public void setVitesses(Vitesses vitesses) {
+        this.vitesses = vitesses;
+    }
+
+    public void setAcceleration(Accelerations acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public void setJerks(Jerks jerks) {
+        this.jerks = jerks;
+    }
+
+    @Override
+    public String toString() {
+        return "Tableau{" + "points=" + points + ", vitesses=" + vitesses + ", acceleration=" + acceleration + ", jerks=" + jerks + '}';
+    }
+
     private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
         HSSFFont font = workbook.createFont();
         font.setBold(true);
@@ -39,8 +80,65 @@ public class Tableau {
         return style;
     }
 
+    private void calculerVitesseJerkAcceleration() {
+        ArrayList<Point> listPoint = points.getPoints();
+        //Liste des coordonnées y dans le bon plan 
+        for (Point p : listPoint) {
+            p.setY((int) (p.getY() * -1));
+        }
+        tempsDebut = listPoint.get(0).getTime();
+        for (int i = 0; i < listPoint.size(); i++) {
+            if (i > 1) {
+                double dist = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
+                dist = dist * pixelToCm;//Convertion en cm
+                // Vitesse (J)
+                int deriveTemps = listPoint.get(i).getInterval();
+                double vit = dist / deriveTemps;
 
-    public Tableau(String fileName, String sheetName, Points points) {
+                vitesses.getVitesses().add(new Vitesse(listPoint.get(i).getTime(), vit));
+
+            }
+
+            if (i > 2) {
+                int deriveTemps1 = listPoint.get(i).getTime() - listPoint.get(i - 1).getTime();
+                double dist1 = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
+                double vit1 = dist1 / deriveTemps1;
+
+                int deriveTemps2 = listPoint.get(i - 1).getTime() - listPoint.get(i - 2).getTime();
+                double dist2 = listPoint.get(i - 1).distanceAvec(listPoint.get(i - 2));
+
+                double vit2 = dist2 / deriveTemps2;
+
+                double acc = (vit1 - vit2) / (deriveTemps1 - deriveTemps2);
+                if ((acc > 0 || acc < 0) && acc != Double.POSITIVE_INFINITY && acc != Double.NEGATIVE_INFINITY) {
+                    acceleration.getAccelerations().add(new Acceleration(listPoint.get(i).getTime(), acc));
+                }
+            }
+            if (i > 3) {
+                double d1 = listPoint.get(i - 2).distanceAvec(listPoint.get(i - 3));
+                double d2 = listPoint.get(i - 1).distanceAvec(listPoint.get(i - 2));
+                double d3 = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
+
+                double v1 = d1 / (listPoint.get(i - 2).getInterval());
+                double v2 = d2 / (listPoint.get(i - 1).getInterval());
+                double v3 = d3 / (listPoint.get(i).getInterval());
+
+                int deriveTemps1 = listPoint.get(i - 2).getTime() - listPoint.get(i - 3).getTime();
+                int deriveTemps2 = listPoint.get(i - 1).getTime() - listPoint.get(i - 2).getTime();
+                int deriveTemps3 = listPoint.get(i).getTime() - listPoint.get(i - 1).getTime();
+
+                double a1 = (v2 - v1) / (deriveTemps2 - deriveTemps1);
+                double a2 = (v3 - v2) / (deriveTemps3 - deriveTemps2);
+
+                double jerk = (a2 - a1) / ((deriveTemps3 - deriveTemps2) - (deriveTemps2 - deriveTemps1));
+                if ((jerk > 0 || jerk < 0) && jerk != Double.POSITIVE_INFINITY && jerk != Double.NEGATIVE_INFINITY) {
+                    jerks.getJerks().add(new Jerk(listPoint.get(i).getTime(), jerk));
+                }
+            }
+        }
+    }
+
+    public void DownloadExcel(String fileName, String sheetName) {
         ArrayList<Point> listPoint = points.getPoints();
         FileOutputStream outFile = null;
         try {
@@ -131,14 +229,6 @@ public class Tableau {
             cell.setCellValue("Ecart-Type Jerk");
             cell.setCellStyle(style);
 
-            //Liste des coordonnées y dans le bon plan 
-            for (Point p : listPoint) {
-                p.setY((int) (p.getY() * -1));
-            }
-            tempsDebut = listPoint.get(0).getTime();
-            ArrayList<Double> vitesses = new ArrayList<>();
-            ArrayList<Double> accelerations = new ArrayList<>();
-            ArrayList<Double> jerks = new ArrayList<>();
             // Data
             for (int i = 0; i < listPoint.size(); i++) {
                 rownum++;
@@ -178,40 +268,20 @@ public class Tableau {
                 // Distance (I)
                 if (rownum > 1) {
                     double dist = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
-
                     dist = dist * pixelToCm;//Convertion en cm
-
                     cell = row.createCell(8, CellType.NUMERIC);
                     cell.setCellValue(dist);
-                    // Vitesse (J)
-                    //double vit = 1000 * dist / (listPoint.get(i).getInterval()); ancienne formule
-                    int deriveTemps = listPoint.get(i).getInterval();
-                    double vit = dist / deriveTemps;
                     cell = row.createCell(9, CellType.NUMERIC);
-                    cell.setCellValue(vit);
-                    if ((vit > 0 || vit < 0) && vit != Double.POSITIVE_INFINITY && vit != Double.NEGATIVE_INFINITY) {
-                        vitesses.add(vit);
-                    }
+                    cell.setCellValue(vitesses.getVitesses().get(i).getY());
+
                 }
                 // Accélération (K)
                 if (rownum > 2) {
-                    int deriveTemps1 = listPoint.get(i).getTime() - listPoint.get(i - 1).getTime();
-                    double dist1 = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
-                    double vit1 = dist1 / deriveTemps1;
-
-                    int deriveTemps2 = listPoint.get(i - 1).getTime() - listPoint.get(i - 2).getTime();
-                    double dist2 = listPoint.get(i - 1).distanceAvec(listPoint.get(i - 2));
-
-                    double vit2 = dist2 / deriveTemps2;
-
-                    double acc = (vit1 - vit2) / (deriveTemps1 - deriveTemps2);
-                    int nbP = 0;
+                    double nbP = 0;
+                    double acc = acceleration.getAccelerations().get(i).getY();
                     cell = row.createCell(10, CellType.NUMERIC);
                     cell.setCellValue(acc);
 
-                    if ((acc > 0 || acc < 0) && acc != Double.POSITIVE_INFINITY && acc != Double.NEGATIVE_INFINITY) {
-                        accelerations.add(acc);
-                    }
                     // Pics
                     if (acc > 15.0) {
                         nbP = 1;
@@ -227,28 +297,10 @@ public class Tableau {
 
                 //Jerk (M)
                 if (rownum > 3) {
-                    double d1 = listPoint.get(i - 2).distanceAvec(listPoint.get(i - 3));
-                    double d2 = listPoint.get(i - 1).distanceAvec(listPoint.get(i - 2));
-                    double d3 = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
-
-                    double v1 = d1 / (listPoint.get(i - 2).getInterval());
-                    double v2 = d2 / (listPoint.get(i - 1).getInterval());
-                    double v3 = d3 / (listPoint.get(i).getInterval());
-
-                    int deriveTemps1 = listPoint.get(i - 2).getTime() - listPoint.get(i - 3).getTime();
-                    int deriveTemps2 = listPoint.get(i - 1).getTime() - listPoint.get(i - 2).getTime();
-                    int deriveTemps3 = listPoint.get(i).getTime() - listPoint.get(i - 1).getTime();
-
-                    double a1 = (v2 - v1) / (deriveTemps2 - deriveTemps1);
-                    double a2 = (v3 - v2) / (deriveTemps3 - deriveTemps2);
-
-                    double jerk = (a2 - a1) / ((deriveTemps3 - deriveTemps2) - (deriveTemps2 - deriveTemps1));
-
+                    double jerk = jerks.getJerks().get(i).getY();
                     cell = row.createCell(12, CellType.NUMERIC);
                     cell.setCellValue(jerk);
-                    if ((jerk > 0 || jerk < 0) && jerk != Double.POSITIVE_INFINITY && jerk != Double.NEGATIVE_INFINITY) {
-                        jerks.add(jerk);
-                    }
+
                 }
             }
             /*

@@ -11,9 +11,9 @@ package petut.webDysgraphie.model;
  */
 public class Jerk {
         private long x;
-    private long y;
+    private double y;
 
-    public Jerk(long x, long y) {
+    public Jerk(long x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -22,7 +22,7 @@ public class Jerk {
         return x;
     }
 
-    public long getY() {
+    public double getY() {
         return y;
     }
 
@@ -30,7 +30,7 @@ public class Jerk {
         this.x = x;
     }
 
-    public void setY(long y) {
+    public void setY(double y) {
         this.y = y;
     }
 
