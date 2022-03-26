@@ -33,6 +33,11 @@ public class AnalyseController {
     public void downloadResultat(Tableau tableau) {
 
     }
+    
+    public Analyse getAnalyse(String token){
+         Analyse analyse= dataTools.readAnalyseFromXml(token);
+         return analyse;
+    }
 
     /**
      * Fonction qui fait débuter un examen, cette examen possède un attribut

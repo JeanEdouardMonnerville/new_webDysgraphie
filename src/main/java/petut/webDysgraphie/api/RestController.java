@@ -30,8 +30,9 @@ public class RestController {
     }
 
     @GetMapping(path = "/analyse", produces = "application/json")
-    public String getAnalyse() {
-        return null;
+    public Analyse getAnalyse(@Context HttpServletRequest request) {
+        String token = request.getHeader("token");
+        return analyseController.getAnalyse(token);
     }
 
     @GetMapping(path = "/resultat/vitesse/inscription", produces = "application/json")
