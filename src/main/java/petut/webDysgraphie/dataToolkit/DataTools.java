@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.UUID;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -18,9 +19,14 @@ import petut.webDysgraphie.model.Analyse;
  */
 public class DataTools {
     private String filePath = "src/main/resources/";
+    private AlphaNumericStringGenerator randomGen=new AlphaNumericStringGenerator();
+    public DataTools() {
+    }
             
-    public Analyse readAnalyseFromXml(String token) throws JAXBException, FileNotFoundException {
-
+    public Analyse readAnalyseFromXml(String token) {
+        if(token==null){
+            token = randomGen.getRandomString(15);
+        }
         Analyse analyse = null;
         try {
             JAXBContext cont = JAXBContext.newInstance(Analyse.class);
@@ -37,22 +43,22 @@ public class DataTools {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        analyse.setToken(token);
         return analyse;
     }
 
-    public void saveAnalyseToXml(Analyse analyse, String pseudo) {
+    public void saveAnalyseToXml(Analyse analyse, String token) {
         try {
-            JAXBContext cont = JAXBContext.newInstance(Analyse.class
-            );
+            JAXBContext cont = JAXBContext.newInstance(Analyse.class);
             Marshaller m = cont.createMarshaller();
-            File file = new File(filePath + pseudo + "-analyse.xml");
+            File file = new File(filePath + token + "-analyse.xml");
 
             if (!file.exists()) {
-                OutputStream output = new FileOutputStream(filePath + pseudo + "-analyse.xml");
+                OutputStream output = new FileOutputStream(filePath + token + "-analyse.xml");
                 m.marshal(analyse, output);
                 output.close();
             } else {
-                OutputStream output = new FileOutputStream(filePath + pseudo + "-analyse.xml");
+                OutputStream output = new FileOutputStream(filePath + token + "-analyse.xml");
                 m.marshal(analyse, output);
 
                 output.close();

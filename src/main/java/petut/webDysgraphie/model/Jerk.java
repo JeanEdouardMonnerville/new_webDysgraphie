@@ -5,13 +5,21 @@
  */
 package petut.webDysgraphie.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  *
  * @author jemon
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Jerk {
-        private long x;
+
+    private long x;
     private double y;
+
+    public Jerk() {
+    }
 
     public Jerk(long x, double y) {
         this.x = x;

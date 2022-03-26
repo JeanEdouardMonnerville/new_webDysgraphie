@@ -2,7 +2,9 @@ package petut.webDysgraphie.controller;
 
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
+import petut.webDysgraphie.dataToolkit.DataTools;
 import petut.webDysgraphie.model.Accelerations;
+import petut.webDysgraphie.model.Analyse;
 import petut.webDysgraphie.model.Jerks;
 import petut.webDysgraphie.model.Vitesses;
 import petut.webDysgraphie.model.Patient;
@@ -19,7 +21,7 @@ import petut.webDysgraphie.model.enumeration.TypeAnalyse;
  */
 @Component
 public class AnalyseController {
-
+    private DataTools dataTools=new DataTools();
     public AnalyseController() {
     }
     
@@ -40,9 +42,13 @@ public class AnalyseController {
      * @param analyseType analyseType de l'examen
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String analyseInit(TypeAnalyse analyseType) {
-
-        return null;
+    public String analyseInit(TypeAnalyse analyseType,String token) {
+        Analyse analyse= dataTools.readAnalyseFromXml(token);
+        token=analyse.getToken();
+        
+        analyse.setTypeAnalyse(analyseType);
+        dataTools.saveAnalyseToXml(analyse, token);
+        return token;
     }
 
     /**

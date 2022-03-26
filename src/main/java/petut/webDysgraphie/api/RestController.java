@@ -1,9 +1,19 @@
 package petut.webDysgraphie.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import petut.webDysgraphie.controller.AnalyseController;
+import petut.webDysgraphie.model.Analyse;
+import petut.webDysgraphie.model.enumeration.TypeAnalyse;
 
 /**
  *
@@ -12,6 +22,7 @@ import petut.webDysgraphie.controller.AnalyseController;
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
 
+    private ObjectMapper objectMapper = new ObjectMapper();
     private AnalyseController analyseController;
 
     public RestController(AnalyseController analyseController) {
@@ -48,9 +59,30 @@ public class RestController {
         return null;
     }
 
-    @PostMapping(path = "/analyse", consumes = "application/json")
-    public String postAnalyse() {
-        return null;
+    @PostMapping(path = "/analyse", consumes = "application/json", produces = "application/json")
+    public String postAnalyse(@RequestBody String typeAnalyse, @Context HttpServletRequest request) {
+        String token = request.getHeader("token");
+        TypeAnalyse typeAnalyse_p = TypeAnalyse.BHK;
+
+        JsonNode jsonNode;
+        try {
+            jsonNode = objectMapper.readTree(typeAnalyse);
+            typeAnalyse = jsonNode.path("typeAnalyse").asText();
+            if (typeAnalyse.equals("bhk") || typeAnalyse.equals("BHK")) {
+                typeAnalyse_p = TypeAnalyse.BHK;
+            }
+            if (typeAnalyse.equals("bhkado") || typeAnalyse.equals("BHKADO") || typeAnalyse.equals("bhk ado") || typeAnalyse.equals("BHK ADO")) {
+                typeAnalyse_p = TypeAnalyse.BHKADO;
+            }
+            if (typeAnalyse.equals("cinematique") || typeAnalyse.equals("CINEMATIQUE")) {
+                typeAnalyse_p = TypeAnalyse.CINEMATIQUE;
+            }
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(RestController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String response = analyseController.analyseInit(typeAnalyse_p, token);
+        return response;
     }
 
     @PostMapping(path = "/materiel", consumes = "application/json")

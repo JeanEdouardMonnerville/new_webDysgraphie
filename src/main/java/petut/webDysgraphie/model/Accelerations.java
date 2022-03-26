@@ -6,13 +6,19 @@
 package petut.webDysgraphie.model;
 
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author jemon
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Accelerations {
     ArrayList<Acceleration> accelerations;
+
+    public Accelerations() {
+    }
 
     public Accelerations(ArrayList<Acceleration> accelerations) {
         this.accelerations = accelerations;

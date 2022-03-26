@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -17,6 +20,16 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {
+    "points",
+    "vitesses",
+    "accelerations",
+    "jerks",
+    "tempsDebut",
+    "version",
+    "pixelToCm"
+})
 public class Tableau {
 
     //Paramètre
@@ -27,12 +40,15 @@ public class Tableau {
     private long tempsDebut;
     private Points points;
     private Vitesses vitesses;
-    private Accelerations acceleration;
+    private Accelerations accelerations;
     private Jerks jerks;
 
     public Tableau(Points points) {
         this.points = points;
         calculerVitesseJerkAcceleration();
+    }
+
+    public Tableau() {
     }
 
     public Points getPoints() {
@@ -43,8 +59,8 @@ public class Tableau {
         return vitesses;
     }
 
-    public Accelerations getAcceleration() {
-        return acceleration;
+    public Accelerations getAccelerations() {
+        return accelerations;
     }
 
     public Jerks getJerks() {
@@ -59,8 +75,8 @@ public class Tableau {
         this.vitesses = vitesses;
     }
 
-    public void setAcceleration(Accelerations acceleration) {
-        this.acceleration = acceleration;
+    public void setAccelerations(Accelerations accelerations) {
+        this.accelerations = accelerations;
     }
 
     public void setJerks(Jerks jerks) {
@@ -69,7 +85,7 @@ public class Tableau {
 
     @Override
     public String toString() {
-        return "Tableau{" + "points=" + points + ", vitesses=" + vitesses + ", acceleration=" + acceleration + ", jerks=" + jerks + '}';
+        return "Tableau{" + "points=" + points + ", vitesses=" + vitesses + ", acceleration=" + accelerations + ", jerks=" + jerks + '}';
     }
 
     private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
@@ -111,7 +127,7 @@ public class Tableau {
 
                 double acc = (vit1 - vit2) / (deriveTemps1 - deriveTemps2);
                 if ((acc > 0 || acc < 0) && acc != Double.POSITIVE_INFINITY && acc != Double.NEGATIVE_INFINITY) {
-                    acceleration.getAccelerations().add(new Acceleration(listPoint.get(i).getTime(), acc));
+                    accelerations.getAccelerations().add(new Acceleration(listPoint.get(i).getTime(), acc));
                 }
             }
             if (i > 3) {
@@ -278,7 +294,7 @@ public class Tableau {
                 // Accélération (K)
                 if (rownum > 2) {
                     double nbP = 0;
-                    double acc = acceleration.getAccelerations().get(i).getY();
+                    double acc = accelerations.getAccelerations().get(i).getY();
                     cell = row.createCell(10, CellType.NUMERIC);
                     cell.setCellValue(acc);
 

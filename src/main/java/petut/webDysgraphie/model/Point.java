@@ -1,11 +1,18 @@
 package petut.webDysgraphie.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Point implements Comparable {
     private int x;
     private int y;
     private int num;
     private int inter;
     private int tps;
+
+    public Point() {
+    }
     
     public Point(int x, int y, int num, int inter, int tps){
         this.x = x;

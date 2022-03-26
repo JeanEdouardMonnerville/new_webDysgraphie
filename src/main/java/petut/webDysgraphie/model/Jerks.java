@@ -6,13 +6,19 @@
 package petut.webDysgraphie.model;
 
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author jemon
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Jerks {
  private ArrayList<Jerk> jerks;
+
+    public Jerks() {
+    }
 
     public Jerks(ArrayList<Jerk> jerks) {
         this.jerks = jerks;

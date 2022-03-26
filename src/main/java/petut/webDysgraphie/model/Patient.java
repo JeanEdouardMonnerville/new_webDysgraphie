@@ -1,6 +1,10 @@
 
 package petut.webDysgraphie.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Patient {
     private String nom;
     private String prenom;
@@ -16,6 +20,9 @@ public class Patient {
         this.age = age;
         this.classe = classe;
         this.anonymat = anonymat;
+    }
+
+    public Patient() {
     }
 
     public String getNom() {

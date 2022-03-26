@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><analyse>
+    <token>H22KE90NGXUVRZQ</token>
+    <typeAnalyse>BHKADO</typeAnalyse>
+    <patient>
+        <nom>null</nom>
+        <prenom>null</prenom>
+        <sexe>null</sexe>
+        <age>0</age>
+        <classe>null</classe>
+        <anonymat>0</anonymat>
+    </patient>
+    <materiel/>
+    <autorisation>
+        <accord>false</accord>
+    </autorisation>
+    <tableau>
+        <points/>
+        <vitesses/>
+        <accelerations/>
+        <jerks/>
+        <tempsDebut>0</tempsDebut>
+        <version>v.1.14</version>
+        <pixelToCm>0.02646</pixelToCm>
+    </tableau>
+</analyse>

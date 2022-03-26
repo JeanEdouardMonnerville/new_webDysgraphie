@@ -5,10 +5,14 @@
  */
 package petut.webDysgraphie.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  *
  * @author jemon
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Vitesse {
     private long x;
     private double y;
@@ -16,6 +20,9 @@ public class Vitesse {
     public Vitesse(long x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vitesse() {
     }
 
     public long getX() {

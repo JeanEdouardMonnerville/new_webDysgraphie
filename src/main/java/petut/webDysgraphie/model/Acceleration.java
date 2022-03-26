@@ -5,13 +5,20 @@
  */
 package petut.webDysgraphie.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  *
  * @author jemon
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Acceleration {
         private long x;
     private double y;
+
+    public Acceleration() {
+    }
 
     public Acceleration(long x, double y) {
         this.x = x;
