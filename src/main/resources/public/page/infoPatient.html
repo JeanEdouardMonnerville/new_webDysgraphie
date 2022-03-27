@@ -1,0 +1,70 @@
+<div class="row">
+    <h1 class="m-3">Informations sur le patient</h1>
+    <form class="mt-3"  id="formpatient">
+        <div class="form-group row m-3">
+            <div class="col-md">
+                <label for="addPatientage" class="form-label">Age</label>
+                <input type="number" class="form-control" id="addPatientage" name="age" required>
+            </div>
+            <div class="col-md">
+                <label for="addPatientLibelle" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="addPatientLibelle"  required>
+            </div>
+        </div>
+        <div class="form-group row m-3">
+
+            <div class="col-md">
+                <label for="addPatientclasse" class="form-label">Classe</label>
+                <SELECT id="addPatientclasse" name="niveau" size="1" >
+                    <!--                    <SELECT id="addPatientclasse" name="niveau" size="1" th:field="*{classe}">-->
+                    <!--                        <option th:each="c: ${classe}" th:value="${c}">[[${c}]]</option>-->
+
+                    <!--                                                <option>Ton niveau scolaire</option>-->
+                    <option>CP</option>
+                    <option>CE1</option>
+                    <option>CE2</option>
+                    <option>CM1</option>
+                    <option>CM2</option>
+                    <option>6EME</option>
+                    <option>5EME</option>
+                    <option>4EME</option>
+                    <option>3EME</option>
+                </SELECT>
+            </div>
+            <div class="col-md">
+                <label for="addPatientsexe" class="form-label">Sexe</label>
+
+                <SELECT id="addPatientsexe" name="sexe" size="1" >
+                    <!--                    <SELECT id="addPatientsexe" name="sexe" size="1" th:field="*{sexe}">-->
+                    <!--                        <option th:each="tc: ${sexe}" th:value="${tc}">[[${tc}]]</option>-->
+                    <option>FILLE</option>
+                    <option>GARCON</option>
+                </SELECT>
+            </div>
+        </div>
+
+        <div class="form-group row m-3">
+
+            <div class="col-md">
+                <label for="addPatientdateExamen" class="form-label" >Date</label>
+                <input type="date" class="form-control" id="addPatientdateExamen"  required name="date">
+            </div>
+            <div class="col-md">
+                <label for="addPatientAnonymat" class="form-label">Numéro d'annonymat</label>
+                <input type="number" class="form-control" id="addPatientAnonymat"  name="annonymat" required>
+            </div>
+        </div>
+        <div class="form-group row m-3">
+            <div class="col-md">
+                <label for="addPatientEvaluation" class="form-label">Evaluation</label>
+                                    <input type="number" class="form-control" id="addPatientEvaluation"  name="eval" required>
+            </div>
+            <div class="col-md">
+                <label for="addPatientEvaluationAComparer" class="form-label">Evaluation à comparer</label>
+                <input type="number" class="form-control" id="addPatientEvaluationAComparer"  name="oldeval" required>
+            </div>
+
+        </div>
+        <button type="button" class="btn btn-primary m-3" onclick="information()" >Suivant</button>
+    </form>
+</div>
