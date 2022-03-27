@@ -3,16 +3,12 @@ package petut.webDysgraphie.controller;
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import petut.webDysgraphie.dataToolkit.DataTools;
-import petut.webDysgraphie.model.Accelerations;
 import petut.webDysgraphie.model.Analyse;
-import petut.webDysgraphie.model.Jerks;
 import petut.webDysgraphie.model.Materiel;
-import petut.webDysgraphie.model.Vitesses;
 import petut.webDysgraphie.model.Patient;
 import petut.webDysgraphie.model.Point;
 import petut.webDysgraphie.model.Points;
 import petut.webDysgraphie.model.Tableau;
-import petut.webDysgraphie.model.enumeration.MaterielType;
 import petut.webDysgraphie.model.enumeration.TypeAnalyse;
 
 /**
@@ -24,7 +20,7 @@ import petut.webDysgraphie.model.enumeration.TypeAnalyse;
 @Component
 public class AnalyseController {
 
-    private DataTools dataTools = new DataTools();
+    private final DataTools dataTools = new DataTools();
 
     public AnalyseController() {
     }
@@ -32,7 +28,7 @@ public class AnalyseController {
     /**
      * Créer un document excel dans le dossier Téléchargement du client
      *
-     * @param tableau résultat de l'examen
+     * @param token d'accès au données
      */
     public void downloadResultat(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
@@ -55,6 +51,7 @@ public class AnalyseController {
      * différente en fonction de sa valeur.
      *
      * @param analyseType analyseType de l'examen
+     * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
     public String analyseInit(TypeAnalyse analyseType, String token) {
@@ -70,6 +67,7 @@ public class AnalyseController {
      * Fonction qui permet de récupérer les informations du patient.
      *
      * @param patient jeune qui passe l'exemen
+     * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
     public String ajoutPatient(Patient patient, String token) {
@@ -83,7 +81,8 @@ public class AnalyseController {
     /**
      * Fonction qui note quel matériel est utilisé pendant l'examen
      *
-     * @param materielType matériel utilisé pour l'examen
+     * @param materiel matériel utilisé par le client
+     * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
     public String ajoutMateriel(Materiel materiel, String token) {
@@ -97,6 +96,7 @@ public class AnalyseController {
     /**
      *
      * @param autorisation autorisation général d'utilisation de l'application
+     * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
     public String ajoutAutorisation(boolean autorisation, String token) {
@@ -159,5 +159,6 @@ public class AnalyseController {
      * @param token
      */
     public void finDeSession(String token) {
+        dataTools.deleteThisFile(token);
     }
 }

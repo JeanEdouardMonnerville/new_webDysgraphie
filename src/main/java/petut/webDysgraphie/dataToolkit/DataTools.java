@@ -1,4 +1,3 @@
-
 package petut.webDysgraphie.dataToolkit;
 
 import java.io.File;
@@ -18,13 +17,15 @@ import petut.webDysgraphie.model.Analyse;
  * @author jemon
  */
 public class DataTools {
+
     private String filePath = "src/main/resources/";
-    private AlphaNumericStringGenerator randomGen=new AlphaNumericStringGenerator();
+    private AlphaNumericStringGenerator randomGen = new AlphaNumericStringGenerator();
+
     public DataTools() {
     }
-            
+
     public Analyse readAnalyseFromXml(String token) {
-        if(token==null){
+        if (token == null) {
             token = randomGen.getRandomString(15);
         }
         Analyse analyse = null;
@@ -62,6 +63,23 @@ public class DataTools {
                 m.marshal(analyse, output);
 
                 output.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteThisFile(String token) {
+
+        try {
+
+            File file = new File(filePath + token + "-analyse.xml");
+
+            if (file.delete()) {
+                System.out.println(file.getName() + " est supprimé.");
+            } else {
+                System.out.println("Opération de suppression echouée");
             }
 
         } catch (Exception e) {

@@ -140,8 +140,8 @@ public class RestController {
     }
 
     @DeleteMapping(path = "/remove")
-    public String removeExamen(@Context HttpServletRequest request) {
+    public void removeExamen(@Context HttpServletRequest request) {
         String token = request.getHeader("token");
-        return null;
+        analyseController.finDeSession(token);
     }
 }
