@@ -359,6 +359,28 @@ public class Tableau {
         }
     }
 
+    public double getMoyenneVitesse() {
+        double result = 0;
+        ArrayList<Double> valueVitesse = new ArrayList<>();
+
+        for (Vitesse v : vitesses.getVitesses()) {
+            valueVitesse.add(v.getY());
+        }
+        return moyenne(valueVitesse);
+    }
+
+    public double getEcartTypeVitesse() {
+        double result = 0;
+        ArrayList<Double> valueVitesse = new ArrayList<>();
+
+        for (Vitesse v : vitesses.getVitesses()) {
+            valueVitesse.add(v.getY());
+        }
+        return ecartType(valueVitesse);
+    }
+    
+
+
     private double moyenne(ArrayList<Double> list) {
         double S = 0;
         for (double l : list) {
