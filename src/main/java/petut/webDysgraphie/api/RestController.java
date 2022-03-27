@@ -48,19 +48,19 @@ public class RestController {
     @GetMapping(path = "/resultat/vitesse", produces = "application/json")
     public String getResultatVitesse(@Context HttpServletRequest request) {
         String token = request.getHeader("token");
-        return null;
+        return analyseController.getResultatVitesse(token);
     }
 
     @GetMapping(path = "/resultat/acceleration", produces = "application/json")
     public String getResultatAcceleration(@Context HttpServletRequest request) {
         String token = request.getHeader("token");
-        return null;
+        return analyseController.getResultatAcceleration(token);
     }
 
     @GetMapping(path = "/resultat/jerk", produces = "application/json")
     public String getResultatJerk(@Context HttpServletRequest request) {
         String token = request.getHeader("token");
-        return null;
+        return analyseController.getResultatJerk(token);
     }
 
     @GetMapping(path = "/resultat/download", produces = "application/json")

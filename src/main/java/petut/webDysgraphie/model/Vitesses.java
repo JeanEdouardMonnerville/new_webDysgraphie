@@ -27,6 +27,21 @@ public class Vitesses {
     public void setVitesses(ArrayList<Vitesse> vitesses) {
         this.vitesses = vitesses;
     }
+
+    @Override
+    public String toString() {
+        String string="{ liste_x : [";
+        for(Vitesse v:vitesses){
+            string =string + v.getX() + "," ;
+        }
+        string=string+"], liste_y : [";
+        for(Vitesse v:vitesses){
+            string =string + v.getY()+ "," ;
+        }
+        string=string+"]}";
+        return string;
+    }
+    
     
 
 }

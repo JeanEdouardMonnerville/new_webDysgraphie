@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Accelerations {
+
     ArrayList<Acceleration> accelerations;
 
     public Accelerations() {
@@ -31,5 +32,19 @@ public class Accelerations {
     public void setAccelerations(ArrayList<Acceleration> accelerations) {
         this.accelerations = accelerations;
     }
-    
+
+    @Override
+    public String toString() {
+        String string = "{ liste_x : [";
+        for (Acceleration a : accelerations) {
+            string = string + a.getX() + ",";
+        }
+        string = string + "], liste_y : [";
+        for (Acceleration a : accelerations) {
+            string = string + a.getY() + ",";
+        }
+        string = string + "]}";
+        return string;
+    }
+
 }

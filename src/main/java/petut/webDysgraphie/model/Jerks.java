@@ -31,5 +31,19 @@ public class Jerks {
     public void setJerks(ArrayList<Jerk> jerks) {
         this.jerks = jerks;
     }
+
+    @Override
+    public String toString() {
+                String string="{ liste_x : [";
+        for(Jerk j:jerks){
+            string =string + j.getX() + "," ;
+        }
+        string=string+"], liste_y : [";
+        for(Jerk j:jerks){
+            string =string + j.getY()+ "," ;
+        }
+        string=string+"]}";
+        return string;
+    }
  
 }

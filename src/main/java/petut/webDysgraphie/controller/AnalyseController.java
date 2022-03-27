@@ -23,28 +23,30 @@ import petut.webDysgraphie.model.enumeration.TypeAnalyse;
  */
 @Component
 public class AnalyseController {
-    private DataTools dataTools=new DataTools();
+
+    private DataTools dataTools = new DataTools();
+
     public AnalyseController() {
     }
-    
+
     /**
      * Créer un document excel dans le dossier Téléchargement du client
      *
      * @param tableau résultat de l'examen
      */
     public void downloadResultat(String token) {
-        Analyse analyse=dataTools.readAnalyseFromXml(token);
-        
-        String fileName=analyse.getPatient().getNom()+"_"
-                +analyse.getPatient().getPrenom()+"_"+
-                analyse.getPatient().getClasse()+"_"+
-                analyse.getPatient().getDateExamen().toString();
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+
+        String fileName = analyse.getPatient().getNom() + "_"
+                + analyse.getPatient().getPrenom() + "_"
+                + analyse.getPatient().getClasse() + "_"
+                + analyse.getPatient().getDateExamen().toString();
         analyse.getTableau().DownloadExcel(fileName, "sheet1");
     }
-    
-    public Analyse getAnalyse(String token){
-         Analyse analyse= dataTools.readAnalyseFromXml(token);
-         return analyse;
+
+    public Analyse getAnalyse(String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        return analyse;
     }
 
     /**
@@ -55,10 +57,10 @@ public class AnalyseController {
      * @param analyseType analyseType de l'examen
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String analyseInit(TypeAnalyse analyseType,String token) {
-        Analyse analyse= dataTools.readAnalyseFromXml(token);
-        token=analyse.getToken();
-        
+    public String analyseInit(TypeAnalyse analyseType, String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        token = analyse.getToken();
+
         analyse.setTypeAnalyse(analyseType);
         dataTools.saveAnalyseToXml(analyse, token);
         return token;
@@ -70,11 +72,11 @@ public class AnalyseController {
      * @param patient jeune qui passe l'exemen
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutPatient(Patient patient,String token) {
-        Analyse analyse=dataTools.readAnalyseFromXml(token);
+    public String ajoutPatient(Patient patient, String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setPatient(patient);
         dataTools.saveAnalyseToXml(analyse, token);
-        token=analyse.getToken();
+        token = analyse.getToken();
         return token;
     }
 
@@ -84,11 +86,11 @@ public class AnalyseController {
      * @param materielType matériel utilisé pour l'examen
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutMateriel(Materiel materiel,String token) {
+    public String ajoutMateriel(Materiel materiel, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setMateriel(materiel);
         dataTools.saveAnalyseToXml(analyse, token);
-        token=analyse.getToken();
+        token = analyse.getToken();
         return token;
     }
 
@@ -97,11 +99,11 @@ public class AnalyseController {
      * @param autorisation autorisation général d'utilisation de l'application
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutAutorisation(boolean autorisation,String token) {
-        Analyse analyse=dataTools.readAnalyseFromXml(token);
+    public String ajoutAutorisation(boolean autorisation, String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.getAutorisation().setAccord(autorisation);
         dataTools.saveAnalyseToXml(analyse, token);
-        token=analyse.getToken();
+        token = analyse.getToken();
         return token;
     }
 
@@ -113,44 +115,49 @@ public class AnalyseController {
      */
     public String ajoutResultat(ArrayList<Point> listePoint, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-        Points points=new Points(listePoint);
+        Points points = new Points(listePoint);
         Tableau tableau = new Tableau(points);
         analyse.setTableau(tableau);
         dataTools.saveAnalyseToXml(analyse, token);
-        token=analyse.getToken();
+        token = analyse.getToken();
         return token;
-    }
-    
-    /**
-     * 
-     * @param tableau
-     * @return les données de vitesse de l'examen
-     */
-    public Vitesses getResultatVitesse(Tableau tableau){
-        return null;
-    }
-    /**
-     * 
-     * @param tableau
-     * @return les données d'acceleration de l'examen
-     */
-    public Accelerations getResultatAcceleration(String token){
-        return null;
     }
 
     /**
-     * 
-     * @param tableau
+     *
+     * @param token
+     * @return les données de vitesse de l'examen
+     */
+    public String getResultatVitesse(String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        return analyse.getTableau().getVitesses().toString();
+    }
+
+    /**
+     *
+     * @param token
+     * @return les données d'acceleration de l'examen
+     */
+    public String getResultatAcceleration(String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        return analyse.getTableau().getAccelerations().toString();
+    }
+
+    /**
+     *
+     * @param token
      * @return les données de jerk de l'examen
      */
-    public Jerks getResultatJerk(Tableau tableau){
-        return null;
-    }   
-    
+    public String getResultatJerk(String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        return analyse.getTableau().getJerks().toString();
+    }
+
     /**
      * Met fin à la session en suprimant le dossier xml
-     * @param token 
+     *
+     * @param token
      */
-    public void finDeSession(String token){
+    public void finDeSession(String token) {
     }
 }
