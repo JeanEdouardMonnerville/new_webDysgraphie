@@ -3,6 +3,7 @@ package petut.webDysgraphie.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import petut.webDysgraphie.controller.AnalyseController;
 import petut.webDysgraphie.model.Analyse;
+import petut.webDysgraphie.model.Materiel;
+import petut.webDysgraphie.model.Patient;
+import petut.webDysgraphie.model.Point;
 import petut.webDysgraphie.model.enumeration.TypeAnalyse;
 
 /**
@@ -36,28 +40,34 @@ public class RestController {
     }
 
     @GetMapping(path = "/resultat/vitesse/inscription", produces = "application/json")
-    public String getResultatVitesseInscription() {
+    public String getResultatVitesseInscription(@Context HttpServletRequest request) {
+        String token = request.getHeader("token");
         return null;
     }
 
     @GetMapping(path = "/resultat/vitesse", produces = "application/json")
-    public String getResultatVitesse() {
+    public String getResultatVitesse(@Context HttpServletRequest request) {
+        String token = request.getHeader("token");
         return null;
     }
 
     @GetMapping(path = "/resultat/acceleration", produces = "application/json")
-    public String getResultatAcceleration() {
+    public String getResultatAcceleration(@Context HttpServletRequest request) {
+        String token = request.getHeader("token");
         return null;
     }
 
     @GetMapping(path = "/resultat/jerk", produces = "application/json")
-    public String getResultatJerk() {
+    public String getResultatJerk(@Context HttpServletRequest request) {
+        String token = request.getHeader("token");
         return null;
     }
 
     @GetMapping(path = "/resultat/download", produces = "application/json")
-    public String downloadResult() {
-        return null;
+    public String downloadResult(@Context HttpServletRequest request) {
+        String token = request.getHeader("token");
+        analyseController.downloadResultat(token);
+        return token;
     }
 
     @PostMapping(path = "/analyse", consumes = "application/json", produces = "application/json")
@@ -86,28 +96,52 @@ public class RestController {
         return response;
     }
 
-    @PostMapping(path = "/materiel", consumes = "application/json")
-    public String postMateriel() {
-        return null;
+    @PostMapping(path = "/materiel", consumes = "application/json", produces = "application/json")
+    public String postMateriel(@Context HttpServletRequest request,@RequestBody Materiel materiel ) {
+        String token = request.getHeader("token");
+        token=analyseController.ajoutMateriel(materiel,token);
+        return token;
     }
 
-    @PostMapping(path = "/autorisation", consumes = "application/json")
-    public String postAutorisation() {
-        return null;
+    @PostMapping(path = "/autorisation", consumes = "application/json", produces = "application/json")
+    public String postAutorisation(@Context HttpServletRequest request,@RequestBody String autorisation) {
+        String token = request.getHeader("token");
+        boolean accord=false;
+        JsonNode jsonNode;
+        try {
+            jsonNode = objectMapper.readTree(autorisation);
+            accord = jsonNode.path("autorisation").asBoolean();
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(RestController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        token=analyseController.ajoutAutorisation(accord,token);
+        return token;
     }
 
-    @PostMapping(path = "/patient", consumes = "application/json")
-    public String postPatient() {
-        return null;
+    @PostMapping(path = "/patient", consumes = "application/json", produces = "application/json")
+    public String postPatient(@Context HttpServletRequest request,@RequestBody Patient patient) {
+        String token = request.getHeader("token");
+        return analyseController.ajoutPatient(patient, token);
     }
 
-    @PostMapping(path = "/ecriture", consumes = "application/json")
-    public String postEcriture() {
-        return null;
+    @PostMapping(path = "/ecriture", consumes = "application/json", produces = "application/json")
+    public String postEcriture(@Context HttpServletRequest request,@RequestBody() String body) {
+        String token = request.getHeader("token");
+        JsonNode jsonNode;
+        try{
+        jsonNode = objectMapper.readTree(body);
+        String bodyListePoint=jsonNode.path("liste_point").toString();
+        ArrayList<Point> list_point =objectMapper.readValue(bodyListePoint,objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Point.class));
+        token=analyseController.ajoutResultat(list_point, token);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return token;
     }
 
     @DeleteMapping(path = "/remove")
-    public String removeExamen() {
+    public String removeExamen(@Context HttpServletRequest request) {
+        String token = request.getHeader("token");
         return null;
     }
 }

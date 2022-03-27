@@ -1,6 +1,7 @@
 
 package petut.webDysgraphie.model;
 
+import java.time.LocalDate;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -12,14 +13,16 @@ public class Patient {
     private int age; 
     private String classe;
     private int anonymat;
+    private LocalDate dateExamen;
 
-    public Patient(String nom, String prenom, String sexe, int age, String classe, int anonymat) {
+    public Patient(String nom, String prenom, String sexe, int age, String classe, int anonymat,LocalDate dateExamen) {
         this.nom = nom;
         this.prenom = prenom;
         this.sexe = sexe;
         this.age = age;
         this.classe = classe;
         this.anonymat = anonymat;
+        this.dateExamen=dateExamen;
     }
 
     public Patient() {
@@ -49,6 +52,10 @@ public class Patient {
         return anonymat;
     }
 
+    public LocalDate getDateExamen() {
+        return dateExamen;
+    }
+
     public void setNom(String nom) {
         this.nom = nom;
     }
@@ -71,6 +78,10 @@ public class Patient {
 
     public void setAnonymat(int anonymat) {
         this.anonymat = anonymat;
+    }
+
+    public void setDateExamen(LocalDate dateExamen) {
+        this.dateExamen = dateExamen;
     }
 
     @Override

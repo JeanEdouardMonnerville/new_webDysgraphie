@@ -6,9 +6,11 @@ import petut.webDysgraphie.dataToolkit.DataTools;
 import petut.webDysgraphie.model.Accelerations;
 import petut.webDysgraphie.model.Analyse;
 import petut.webDysgraphie.model.Jerks;
+import petut.webDysgraphie.model.Materiel;
 import petut.webDysgraphie.model.Vitesses;
 import petut.webDysgraphie.model.Patient;
 import petut.webDysgraphie.model.Point;
+import petut.webDysgraphie.model.Points;
 import petut.webDysgraphie.model.Tableau;
 import petut.webDysgraphie.model.enumeration.MaterielType;
 import petut.webDysgraphie.model.enumeration.TypeAnalyse;
@@ -30,8 +32,14 @@ public class AnalyseController {
      *
      * @param tableau résultat de l'examen
      */
-    public void downloadResultat(Tableau tableau) {
-
+    public void downloadResultat(String token) {
+        Analyse analyse=dataTools.readAnalyseFromXml(token);
+        
+        String fileName=analyse.getPatient().getNom()+"_"
+                +analyse.getPatient().getPrenom()+"_"+
+                analyse.getPatient().getClasse()+"_"+
+                analyse.getPatient().getDateExamen().toString();
+        analyse.getTableau().DownloadExcel(fileName, "sheet1");
     }
     
     public Analyse getAnalyse(String token){
@@ -62,19 +70,26 @@ public class AnalyseController {
      * @param patient jeune qui passe l'exemen
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutPatient(Patient patient) {
-
-        return null;
+    public String ajoutPatient(Patient patient,String token) {
+        Analyse analyse=dataTools.readAnalyseFromXml(token);
+        analyse.setPatient(patient);
+        dataTools.saveAnalyseToXml(analyse, token);
+        token=analyse.getToken();
+        return token;
     }
 
     /**
-     * Fonction qui note quel matériel est utilisé pendant l'exemen
+     * Fonction qui note quel matériel est utilisé pendant l'examen
      *
      * @param materielType matériel utilisé pour l'examen
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutMateriel(MaterielType materielType) {
-        return null;
+    public String ajoutMateriel(Materiel materiel,String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        analyse.setMateriel(materiel);
+        dataTools.saveAnalyseToXml(analyse, token);
+        token=analyse.getToken();
+        return token;
     }
 
     /**
@@ -82,18 +97,28 @@ public class AnalyseController {
      * @param autorisation autorisation général d'utilisation de l'application
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutAutorisation(boolean autorisation) {
-        return null;
+    public String ajoutAutorisation(boolean autorisation,String token) {
+        Analyse analyse=dataTools.readAnalyseFromXml(token);
+        analyse.getAutorisation().setAccord(autorisation);
+        dataTools.saveAnalyseToXml(analyse, token);
+        token=analyse.getToken();
+        return token;
     }
 
     /**
      *
      * @param listePoint liste des points de l'examen
-     * @param patient nom du patient conserné
+     * @param token d'accès au fichier
      * @return
      */
-    public String ajoutResultat(ArrayList<Point> listePoint, Patient patient) {
-        return null;
+    public String ajoutResultat(ArrayList<Point> listePoint, String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        Points points=new Points(listePoint);
+        Tableau tableau = new Tableau(points);
+        analyse.setTableau(tableau);
+        dataTools.saveAnalyseToXml(analyse, token);
+        token=analyse.getToken();
+        return token;
     }
     
     /**
@@ -109,7 +134,7 @@ public class AnalyseController {
      * @param tableau
      * @return les données d'acceleration de l'examen
      */
-    public Accelerations getResultatAcceleration(Tableau tableau){
+    public Accelerations getResultatAcceleration(String token){
         return null;
     }
 

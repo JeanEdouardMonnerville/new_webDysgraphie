@@ -10,6 +10,7 @@
         <age>null</age>
         <classe>null</classe>
         <anonymat>null</anonymat>
+        <dateDebut>null</dateDebut>
     </patient>
     <materiel>
         <materielType>null</materielType>
