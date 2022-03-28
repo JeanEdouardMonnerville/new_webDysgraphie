@@ -3,6 +3,7 @@ package petut.webDysgraphie.controller;
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import petut.webDysgraphie.dataToolkit.DataTools;
+import petut.webDysgraphie.dataToolkit.MathTools;
 import petut.webDysgraphie.model.Analyse;
 import petut.webDysgraphie.model.Materiel;
 import petut.webDysgraphie.model.Patient;
@@ -21,6 +22,7 @@ import petut.webDysgraphie.model.enumeration.TypeAnalyse;
 public class AnalyseController {
 
     private final DataTools dataTools = new DataTools();
+    private final MathTools mathTools = new MathTools();
 
     public AnalyseController() {
     }
@@ -131,6 +133,28 @@ public class AnalyseController {
     public String getResultatVitesse(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         return analyse.getTableau().getVitesses().toString();
+    }
+
+    public String getResultatVitesseInscription(String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        
+        String result = "{ courbeGausseX:[";
+        ArrayList<Double> list_normal_x = mathTools.normalDensityX(-100, 100);
+        for (double x : list_normal_x) {
+            result = result + x + ",";
+        }
+        result += "], courbeGausseY:[";
+
+        ArrayList<Double> list_normal_y = mathTools.normalDensityY(list_normal_x);
+        for (double y : list_normal_y) {
+            result = result + y + ",";
+        }
+        result += "],";
+        
+        double valeurPatient=mathTools.normalDensity(analyse.getTableau().getMoyenneVitesse()/
+                analyse.getTableau().getEcartTypeVitesse());
+        result += "valeurPatient :"+valeurPatient+"}";
+        return result;
     }
 
     /**

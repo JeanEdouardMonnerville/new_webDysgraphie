@@ -42,7 +42,7 @@ public class RestController {
     @GetMapping(path = "/resultat/vitesse/inscription", produces = "application/json")
     public String getResultatVitesseInscription(@Context HttpServletRequest request) {
         String token = request.getHeader("token");
-        return null;
+        return analyseController.getResultatVitesseInscription(token);
     }
 
     @GetMapping(path = "/resultat/vitesse", produces = "application/json")
