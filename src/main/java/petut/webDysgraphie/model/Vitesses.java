@@ -1,4 +1,3 @@
-
 package petut.webDysgraphie.model;
 
 import java.util.ArrayList;
@@ -6,11 +5,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
- *Class qui permet de récupérer les résultat de vitesse.
+ * Class qui permet de récupérer les résultat de vitesse.
+ *
  * @author jemon
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Vitesses {
+
     private ArrayList<Vitesse> vitesses;
 
     public Vitesses(ArrayList<Vitesse> vitesses) {
@@ -28,20 +29,36 @@ public class Vitesses {
         this.vitesses = vitesses;
     }
 
+    public ArrayList<Double> getListeX() {
+        ArrayList<Double> result = new ArrayList<Double>();
+
+        for (int i = 0; i < vitesses.size(); i++) {
+            result.add((double) vitesses.get(i).getX());
+        }
+        return result;
+    }
+
+    public ArrayList<Double> getListeY() {
+        ArrayList<Double> result = new ArrayList<Double>();
+
+        for (int i = 0; i < vitesses.size(); i++) {
+            result.add((double) vitesses.get(i).getY());
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
-        String string="{ liste_x : [";
-        for(Vitesse v:vitesses){
-            string =string + v.getX() + "," ;
+        String string = "{ liste_x : [";
+        for (Vitesse v : vitesses) {
+            string = string + v.getX() + ",";
         }
-        string=string+"], liste_y : [";
-        for(Vitesse v:vitesses){
-            string =string + v.getY()+ "," ;
+        string = string + "], liste_y : [";
+        for (Vitesse v : vitesses) {
+            string = string + v.getY() + ",";
         }
-        string=string+"]}";
+        string = string + "]}";
         return string;
     }
-    
-    
 
 }

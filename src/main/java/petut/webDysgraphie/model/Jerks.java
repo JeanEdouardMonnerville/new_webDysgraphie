@@ -45,5 +45,23 @@ public class Jerks {
         string=string+"]}";
         return string;
     }
+
+    public ArrayList<Double> getListeX() {
+        ArrayList<Double> result = new ArrayList<Double>();
+
+        for (int i = 0; i < jerks.size(); i++) {
+            result.add((double) jerks.get(i).getX());
+        }
+        return result;
+    }
+
+    public ArrayList<Double> getListeY() {
+        ArrayList<Double> result = new ArrayList<Double>();
+
+        for (int i = 0; i < jerks.size(); i++) {
+            result.add((double) jerks.get(i).getY());
+        }
+        return result;
+    }
  
 }

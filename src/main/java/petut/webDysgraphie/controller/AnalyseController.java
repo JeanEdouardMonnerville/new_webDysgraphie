@@ -2,6 +2,7 @@ package petut.webDysgraphie.controller;
 
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
+import petut.webDysgraphie.api.responseFormat.GraphResponseFormat;
 import petut.webDysgraphie.dataToolkit.DataTools;
 import petut.webDysgraphie.dataToolkit.MathTools;
 import petut.webDysgraphie.model.Analyse;
@@ -32,7 +33,7 @@ public class AnalyseController {
      *
      * @param token d'accès au données
      */
-    public void downloadResultat(String token) {
+    public Analyse downloadResultat(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
 
         String fileName = analyse.getPatient().getNom() + "_"
@@ -40,6 +41,7 @@ public class AnalyseController {
                 + analyse.getPatient().getClasse() + "_"
                 + analyse.getPatient().getDateExamen().toString();
         analyse.getTableau().DownloadExcel(fileName, "sheet1");
+        return analyse;
     }
 
     public Analyse getAnalyse(String token) {
@@ -70,12 +72,11 @@ public class AnalyseController {
      * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutPatient(Patient patient, String token) {
+    public Analyse ajoutPatient(Patient patient, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setPatient(patient);
         dataTools.saveAnalyseToXml(analyse, token);
-        token = analyse.getToken();
-        return token;
+        return analyse;
     }
 
     /**
@@ -85,12 +86,11 @@ public class AnalyseController {
      * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutMateriel(Materiel materiel, String token) {
+    public Analyse ajoutMateriel(Materiel materiel, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setMateriel(materiel);
         dataTools.saveAnalyseToXml(analyse, token);
-        token = analyse.getToken();
-        return token;
+        return analyse;
     }
 
     /**
@@ -99,12 +99,11 @@ public class AnalyseController {
      * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String ajoutAutorisation(boolean autorisation, String token) {
+    public Analyse ajoutAutorisation(boolean autorisation, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.getAutorisation().setAccord(autorisation);
         dataTools.saveAnalyseToXml(analyse, token);
-        token = analyse.getToken();
-        return token;
+        return analyse;
     }
 
     /**
@@ -113,14 +112,14 @@ public class AnalyseController {
      * @param token d'accès au fichier
      * @return
      */
-    public String ajoutResultat(ArrayList<Point> listePoint, String token) {
+    public Analyse ajoutResultat(ArrayList<Point> listePoint, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         Points points = new Points(listePoint);
         Tableau tableau = new Tableau(points);
         analyse.setTableau(tableau);
         dataTools.saveAnalyseToXml(analyse, token);
-        token = analyse.getToken();
-        return token;
+        
+        return analyse;
     }
 
     /**
@@ -128,30 +127,28 @@ public class AnalyseController {
      * @param token
      * @return les données de vitesse de l'examen
      */
-    public String getResultatVitesse(String token) {
+    public GraphResponseFormat getResultatVitesse(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-        return analyse.getTableau().getVitesses().toString();
+        GraphResponseFormat result = new GraphResponseFormat();
+
+        result.setListe_x(analyse.getTableau().getVitesses().getListeX());
+        result.setListe_y(analyse.getTableau().getVitesses().getListeY());
+
+        return result;
     }
 
-    public String getResultatVitesseInscription(String token) {
+    public GraphResponseFormat getResultatVitesseInscription(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-        
-        String result = "{ courbeGausseX:[";
-        ArrayList<Double> list_normal_x = mathTools.normalDensityX(-100, 100);
-        for (double x : list_normal_x) {
-            result = result + x + ",";
-        }
-        result += "], courbeGausseY:[";
 
-        ArrayList<Double> list_normal_y = mathTools.normalDensityY(list_normal_x);
-        for (double y : list_normal_y) {
-            result = result + y + ",";
-        }
-        result += "],";
-        
-        double valeurPatient=mathTools.normalDensity(analyse.getTableau().getMoyenneVitesse()/
-                analyse.getTableau().getEcartTypeVitesse());
-        result += "valeurPatient :"+valeurPatient+"}";
+        GraphResponseFormat result = new GraphResponseFormat();
+        result.setListe_x(mathTools.normalDensityX(-100, 100));
+        result.setListe_y(mathTools.normalDensityY(result.getListe_x()));
+
+        double valeurPatient = mathTools.normalDensity(analyse.getTableau().getMoyenneVitesse()
+                / analyse.getTableau().getEcartTypeVitesse());
+
+        result.setValeurPatient(valeurPatient);
+
         return result;
     }
 
@@ -160,9 +157,15 @@ public class AnalyseController {
      * @param token
      * @return les données d'acceleration de l'examen
      */
-    public String getResultatAcceleration(String token) {
+    public GraphResponseFormat getResultatAcceleration(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-        return analyse.getTableau().getAccelerations().toString();
+
+        GraphResponseFormat result = new GraphResponseFormat();
+
+        result.setListe_x(analyse.getTableau().getAccelerations().getListeX());
+        result.setListe_y(analyse.getTableau().getAccelerations().getListeY());
+
+        return result;
     }
 
     /**
@@ -170,9 +173,15 @@ public class AnalyseController {
      * @param token
      * @return les données de jerk de l'examen
      */
-    public String getResultatJerk(String token) {
+    public GraphResponseFormat getResultatJerk(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-        return analyse.getTableau().getJerks().toString();
+
+        GraphResponseFormat result = new GraphResponseFormat();
+
+        result.setListe_x(analyse.getTableau().getJerks().getListeX());
+        result.setListe_y(analyse.getTableau().getJerks().getListeY());
+        
+        return result;
     }
 
     /**
