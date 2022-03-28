@@ -56,13 +56,11 @@ public class AnalyseController {
      * @param token token d'accès aux données
      * @return token d'accès qui est aussi le nom du fichier de sauvegarde XML
      */
-    public String analyseInit(TypeAnalyse analyseType, String token) {
+    public Analyse analyseInit(TypeAnalyse analyseType, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-        token = analyse.getToken();
-
         analyse.setTypeAnalyse(analyseType);
         dataTools.saveAnalyseToXml(analyse, token);
-        return token;
+        return analyse;
     }
 
     /**
