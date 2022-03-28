@@ -57,7 +57,7 @@ public class Point implements Comparable {
         return inter;
     }
     
-    public int getTime() {
+    public int getTps() {
         return tps;
     }
     

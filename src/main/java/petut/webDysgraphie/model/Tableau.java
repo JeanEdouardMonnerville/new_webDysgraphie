@@ -102,7 +102,7 @@ public class Tableau {
         for (Point p : listPoint) {
             p.setY((int) (p.getY() * -1));
         }
-        tempsDebut = listPoint.get(0).getTime();
+        tempsDebut = listPoint.get(0).getTps();
         for (int i = 0; i < listPoint.size(); i++) {
             if (i > 1) {
                 double dist = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
@@ -111,23 +111,23 @@ public class Tableau {
                 int deriveTemps = listPoint.get(i).getInterval();
                 double vit = dist / deriveTemps;
 
-                vitesses.getVitesses().add(new Vitesse(listPoint.get(i).getTime(), vit));
+                vitesses.getVitesses().add(new Vitesse(listPoint.get(i).getTps(), vit));
 
             }
 
             if (i > 2) {
-                int deriveTemps1 = listPoint.get(i).getTime() - listPoint.get(i - 1).getTime();
+                int deriveTemps1 = listPoint.get(i).getTps() - listPoint.get(i - 1).getTps();
                 double dist1 = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
                 double vit1 = dist1 / deriveTemps1;
 
-                int deriveTemps2 = listPoint.get(i - 1).getTime() - listPoint.get(i - 2).getTime();
+                int deriveTemps2 = listPoint.get(i - 1).getTps() - listPoint.get(i - 2).getTps();
                 double dist2 = listPoint.get(i - 1).distanceAvec(listPoint.get(i - 2));
 
                 double vit2 = dist2 / deriveTemps2;
 
                 double acc = (vit1 - vit2) / (deriveTemps1 - deriveTemps2);
                 if ((acc > 0 || acc < 0) && acc != Double.POSITIVE_INFINITY && acc != Double.NEGATIVE_INFINITY) {
-                    accelerations.getAccelerations().add(new Acceleration(listPoint.get(i).getTime(), acc));
+                    accelerations.getAccelerations().add(new Acceleration(listPoint.get(i).getTps(), acc));
                 }
             }
             if (i > 3) {
@@ -139,16 +139,16 @@ public class Tableau {
                 double v2 = d2 / (listPoint.get(i - 1).getInterval());
                 double v3 = d3 / (listPoint.get(i).getInterval());
 
-                int deriveTemps1 = listPoint.get(i - 2).getTime() - listPoint.get(i - 3).getTime();
-                int deriveTemps2 = listPoint.get(i - 1).getTime() - listPoint.get(i - 2).getTime();
-                int deriveTemps3 = listPoint.get(i).getTime() - listPoint.get(i - 1).getTime();
+                int deriveTemps1 = listPoint.get(i - 2).getTps() - listPoint.get(i - 3).getTps();
+                int deriveTemps2 = listPoint.get(i - 1).getTps() - listPoint.get(i - 2).getTps();
+                int deriveTemps3 = listPoint.get(i).getTps() - listPoint.get(i - 1).getTps();
 
                 double a1 = (v2 - v1) / (deriveTemps2 - deriveTemps1);
                 double a2 = (v3 - v2) / (deriveTemps3 - deriveTemps2);
 
                 double jerk = (a2 - a1) / ((deriveTemps3 - deriveTemps2) - (deriveTemps2 - deriveTemps1));
                 if ((jerk > 0 || jerk < 0) && jerk != Double.POSITIVE_INFINITY && jerk != Double.NEGATIVE_INFINITY) {
-                    jerks.getJerks().add(new Jerk(listPoint.get(i).getTime(), jerk));
+                    jerks.getJerks().add(new Jerk(listPoint.get(i).getTps(), jerk));
                 }
             }
         }
@@ -267,7 +267,7 @@ public class Tableau {
                 cell.setCellValue(listPoint.get(i).getInterval());
                 // Time ms (F)
                 cell = row.createCell(5, CellType.NUMERIC);
-                cell.setCellValue(listPoint.get(i).getTime() - tempsDebut);
+                cell.setCellValue(listPoint.get(i).getTps() - tempsDebut);
                 // P (H)
                 cell = row.createCell(7, CellType.NUMERIC);
                 //METTRE LA VALEUR DE LA PRESSION
