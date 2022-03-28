@@ -39,13 +39,6 @@ public class Analyse {
     public Analyse() {
     }
 
-    public Analyse(TypeAnalyse typeAnalyse, String token) {
-        this.typeAnalyse = typeAnalyse;
-        this.token = token;
-    }
-
-
-
 
 
     

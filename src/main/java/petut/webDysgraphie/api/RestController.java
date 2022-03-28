@@ -71,7 +71,7 @@ public class RestController {
     }
 
     @PostMapping(path = "/analyse", consumes = "application/json", produces = "application/json")
-    public Analyse postAnalyse(@RequestBody String typeAnalyse, @Context HttpServletRequest request) {
+    public String postAnalyse(@RequestBody String typeAnalyse, @Context HttpServletRequest request) {
         String token = request.getHeader("token");
         TypeAnalyse typeAnalyse_p = TypeAnalyse.BHK;
 
@@ -92,7 +92,7 @@ public class RestController {
             Logger.getLogger(RestController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Analyse response = analyseController.analyseInit(typeAnalyse_p, token);
+        String response = analyseController.analyseInit(typeAnalyse_p, token);
         return response;
     }
 

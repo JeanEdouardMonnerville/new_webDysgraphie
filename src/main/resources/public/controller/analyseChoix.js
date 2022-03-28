@@ -30,13 +30,15 @@ function ajoutAnalyse(dataJson){
         url: url + 'analyse' ,
         data : dataJson,
         method: 'POST',
-        contentType:'application/json',
-        success:((data)=> {
+        contentType:'application/json'
+    })
+        .done((data)=> {
             console.log("done :");
             console.log(data,data.token);
             localStorage.setItem("token",data.token);
-            $( "#container" ).load( "page/materiel.html" )}),
-        error: ((e)=>console.log(e))
-    });
-
+            $( "#container" ).load( "page/materiel.html" );
+        })
+        .fail((data) => {
+            console.log('erreur : ' ,data);
+        })
 }
