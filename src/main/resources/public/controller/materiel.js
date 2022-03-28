@@ -1,14 +1,19 @@
-function ajoutMateriel(dataJson){
+function ajoutMateriel(data){
     $.ajax({
         url: url + 'materiel' ,
-        data : dataJson,
-        method: 'POST'
+        data : {'token':localStorage.getItem('token'), 'materielType':data},
+        method: 'POST',
+        contentType: 'application/json',
     })
-        .done((data)=> {})
-        .fail((data) => {})
+        .done((data)=> {
+            console.log(data)
+        })
+        .fail((data) => {
+            console.log(data)
+        })
 }
 
 function materielchoice(choix){
-    // ajoutMateriel({});
+     ajoutMateriel(choix);
     $( "#container" ).load( "page/autorisation.html" );
 }

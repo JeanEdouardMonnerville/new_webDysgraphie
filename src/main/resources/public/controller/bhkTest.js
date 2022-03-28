@@ -1,3 +1,42 @@
+let te = 0;
+
+function postResults() {
+    $.ajax({
+        url: 'ecriture',
+        method:'post',
+        data: {
+            "liste_point":te,
+            "token" : localStorage.getItem("token")
+        },
+        datatype:'html',
+        success: function (response) {
+            console.log("Envoi des résultats");
+            console.log(response);
+            // $("#details").html(response);
+            // $("ul").unwrap();
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+
+}
+
+function download(){
+    console.log("Lancement du téléchargement ...");
+    $.ajax({
+        url: 'resultat/download',
+        data : {'token':localStorage.getItem('token')},
+        success: function (response) {
+            console.log(response)
+            alert("Fichier Excel téléchargé !")
+        },
+        error:function(e){
+            console.log(e);
+        }
+    });
+}
+
 function startTest(){
     if(localStorage.getItem("analyse")==="BHK") {
         $( "#container" ).load( "page/bhkTest.html" , function (){
@@ -8,12 +47,6 @@ function startTest(){
 }
 
 //---------------------------CANVAS
-
-let d = false;
-let td= 0;
-let tf = 0;
-let te = 0;
-
 //change pen color
 function changeColor(){
     color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
@@ -190,6 +223,7 @@ function startTimer(){
         } else {
             circleSvg.style.animation = "none";
             alert("Temps écoulé.")
+            postResults();
             clearInterval(interval);
         }
     }, 1000);

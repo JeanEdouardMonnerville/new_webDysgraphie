@@ -1,14 +1,20 @@
 function ajoutAutorisation(dataJson){
     $.ajax({
         url: url + 'autorisation' ,
-        data : dataJson,
-        method: 'POST'
+        data : {'token':localStorage.getItem('token'), 'autorisation' : true},
+        method: 'POST',
+        contentType: 'application/json',
+
     })
-        .done((data)=> {})
-        .fail((data) => {})
+        .done((data)=> {
+            console.log(data)
+        })
+        .fail((data) => {
+            console.log(data)
+        })
 }
 
 function autorisation(){
-    // ajoutAnalyse({});
+    ajoutAutorisation();
     $( "#container" ).load( "page/infoPatient.html" );
 }

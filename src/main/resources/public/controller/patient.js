@@ -2,6 +2,7 @@ function ajoutPatient(dataJson){
     $.ajax({
         url: url + 'patient' ,
         data : dataJson,
+        contentType: 'application/json',
         method: 'POST'
     })
         .done((data)=> {})
