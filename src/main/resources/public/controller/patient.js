@@ -26,31 +26,6 @@ function information(){
     let sexe = $("#addPatientsexe").val();
     let dateExam = $("#addPatientdateExamen").val();
     let anonymat = $("#addPatientAnonymat").val();
-    console.log(age,nom,classe,sexe,dateExam,anonymat);
-
-    if (age==''){
-        console.log("erreur age");
-        return;
-    }if (nom==''){
-        console.log("erreur nom");
-        return;
-    }if (prenom==''){
-        console.log("erreur nom");
-        return;
-    }if (classe==''){
-        console.log("erreur classe");
-        return;
-    }if (sexe==''){
-        console.log("erreur sexe");
-        return;
-    }if (dateExam==''){
-        console.log("erreur date");
-        return;
-    }if (anonymat==''){
-        console.log("erreur annomnyme");
-        return;
-    }
     datajson = {nom:nom,prenom:prenom,sexe:sexe,age:age,classe:classe,anonymat:anonymat,dateExamen:dateExam};
-    console.log(datajson);
     ajoutPatient(datajson);
 }

@@ -2,7 +2,7 @@ function ajoutMateriel(data){
     console.log(JSON.stringify({'token':localStorage.getItem('token'), materiel : {materielType:data}}));
     $.ajax({
         url: url + 'materiel' ,
-        data : JSON.stringify({ materiel : {materielType:data}}),
+        data : JSON.stringify({materielType:data}),
         headers : { 'token':localStorage.getItem('token')},
         method: 'POST',
         contentType: 'application/json',

@@ -2,9 +2,22 @@ function resultatVitesseInscription(){
     $.get(url + 'resultat/vitesse/inscription'
     ).done((dataJson)=>{});
 }
+
 function resultatVitesse(){
-    $.get(url + 'resultat/vitesse'
-    ).done((dataJson)=>{});
+    $.ajax({
+        url: url + 'resultat/vitesse' ,
+        method: 'GET',
+        headers : { 'token':localStorage.getItem('token')},
+        contentType:'application/json'
+    })
+        .done((data)=> {
+            console.log("done resultatVitesse:",data);
+            // $( "#container" ).load( "page/materiel.html" );
+        })
+        .fail((data) => {
+            console.log('erreur resultatVitesse: ' ,data);
+        })
+
 }
 function resultatVitesseComparer(){
     $.get(url + 'resultat/comparer/vitesse'
