@@ -45,6 +45,9 @@ public class Tableau {
 
     public Tableau(Points points) {
         this.points = points;
+        this.vitesses=new Vitesses();
+        this.accelerations=new Accelerations();
+        this.jerks=new Jerks();
         calculerVitesseJerkAcceleration();
     }
 
@@ -359,7 +362,7 @@ public class Tableau {
         }
     }
 
-    public double getMoyenneVitesse() {
+    public double createMoyenneVitesse() {
         double result = 0;
         ArrayList<Double> valueVitesse = new ArrayList<>();
 
@@ -369,7 +372,7 @@ public class Tableau {
         return moyenne(valueVitesse);
     }
 
-    public double getEcartTypeVitesse() {
+    public double createEcartTypeVitesse() {
         double result = 0;
         ArrayList<Double> valueVitesse = new ArrayList<>();
 

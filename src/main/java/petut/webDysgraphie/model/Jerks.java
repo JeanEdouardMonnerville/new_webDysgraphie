@@ -46,7 +46,7 @@ public class Jerks {
         return string;
     }
 
-    public ArrayList<Double> getListeX() {
+    public ArrayList<Double> createListeX() {
         ArrayList<Double> result = new ArrayList<Double>();
 
         for (int i = 0; i < jerks.size(); i++) {
@@ -55,7 +55,7 @@ public class Jerks {
         return result;
     }
 
-    public ArrayList<Double> getListeY() {
+    public ArrayList<Double> createListeY() {
         ArrayList<Double> result = new ArrayList<Double>();
 
         for (int i = 0; i < jerks.size(); i++) {

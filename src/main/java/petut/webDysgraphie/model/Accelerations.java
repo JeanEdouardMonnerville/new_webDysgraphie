@@ -47,7 +47,7 @@ public class Accelerations {
         return string;
     }
 
-    public ArrayList<Double> getListeX() {
+    public ArrayList<Double> createListeX() {
         ArrayList<Double> result = new ArrayList<Double>();
 
         for (int i = 0; i < accelerations.size(); i++) {
@@ -56,7 +56,7 @@ public class Accelerations {
         return result;
     }
 
-    public ArrayList<Double> getListeY() {
+    public ArrayList<Double> createListeY() {
         ArrayList<Double> result = new ArrayList<Double>();
 
         for (int i = 0; i < accelerations.size(); i++) {

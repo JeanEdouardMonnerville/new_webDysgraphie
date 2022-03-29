@@ -29,7 +29,7 @@ public class Vitesses {
         this.vitesses = vitesses;
     }
 
-    public ArrayList<Double> getListeX() {
+    public ArrayList<Double> createListeX() {
         ArrayList<Double> result = new ArrayList<Double>();
 
         for (int i = 0; i < vitesses.size(); i++) {
@@ -38,7 +38,7 @@ public class Vitesses {
         return result;
     }
 
-    public ArrayList<Double> getListeY() {
+    public ArrayList<Double> createListeY() {
         ArrayList<Double> result = new ArrayList<Double>();
 
         for (int i = 0; i < vitesses.size(); i++) {

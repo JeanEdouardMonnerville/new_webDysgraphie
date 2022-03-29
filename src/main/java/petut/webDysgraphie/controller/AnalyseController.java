@@ -131,8 +131,8 @@ public class AnalyseController {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         GraphResponseFormat result = new GraphResponseFormat();
 
-        result.setListe_x(analyse.getTableau().getVitesses().getListeX());
-        result.setListe_y(analyse.getTableau().getVitesses().getListeY());
+        result.setListe_x(analyse.getTableau().getVitesses().createListeX());
+        result.setListe_y(analyse.getTableau().getVitesses().createListeY());
 
         return result;
     }
@@ -144,8 +144,8 @@ public class AnalyseController {
         result.setListe_x(mathTools.normalDensityX(-100, 100));
         result.setListe_y(mathTools.normalDensityY(result.getListe_x()));
 
-        double valeurPatient = mathTools.normalDensity(analyse.getTableau().getMoyenneVitesse()
-                / analyse.getTableau().getEcartTypeVitesse());
+        double valeurPatient = mathTools.normalDensity(analyse.getTableau().createMoyenneVitesse()
+                / analyse.getTableau().createEcartTypeVitesse());
 
         result.setValeurPatient(valeurPatient);
 
@@ -162,8 +162,8 @@ public class AnalyseController {
 
         GraphResponseFormat result = new GraphResponseFormat();
 
-        result.setListe_x(analyse.getTableau().getAccelerations().getListeX());
-        result.setListe_y(analyse.getTableau().getAccelerations().getListeY());
+        result.setListe_x(analyse.getTableau().getAccelerations().createListeX());
+        result.setListe_y(analyse.getTableau().getAccelerations().createListeY());
 
         return result;
     }
@@ -178,8 +178,8 @@ public class AnalyseController {
 
         GraphResponseFormat result = new GraphResponseFormat();
 
-        result.setListe_x(analyse.getTableau().getJerks().getListeX());
-        result.setListe_y(analyse.getTableau().getJerks().getListeY());
+        result.setListe_x(analyse.getTableau().getJerks().createListeX());
+        result.setListe_y(analyse.getTableau().getJerks().createListeY());
         
         return result;
     }
