@@ -1,16 +1,5 @@
 let url = 'http://localhost:8081/';
 
-function analysechoice(choix){
-    let oldtoken = localStorage.getItem('token')
-    if ( oldtoken!=null){
-        console.log('token old',oldtoken)
-        deleteEnregistrement();
-    }
-    ajoutAnalyse(JSON.stringify({typeAnalyse:choix}))
-    localStorage.setItem("analyse",choix);
-
-}
-
 function deleteEnregistrement(){
     $.ajax({
         url : url + 'remove',
@@ -18,9 +7,9 @@ function deleteEnregistrement(){
         method: 'DELETE',
         contentType: 'application/json',
     }).done((data)=>{
-        console.log("sucess : ",data)
+        console.log("sucess delete : ",data)
     }).fail((data) =>{
-        console.log("fail : ",data)
+        console.log("fail delete : ",data)
     })
 }
 
@@ -41,4 +30,15 @@ function ajoutAnalyse(dataJson){
         .fail((data) => {
             console.log('erreur : ' ,data);
         })
+}
+
+function analysechoice(choix){
+    let oldtoken = localStorage.getItem('token');
+    if ( oldtoken!=null){
+        console.log('token old',oldtoken);
+        deleteEnregistrement();
+    }
+    ajoutAnalyse(JSON.stringify({typeAnalyse:choix}));
+    localStorage.setItem("analyse",choix);
+
 }
