@@ -23,11 +23,18 @@
             </div>
         </div>
     </div>
+    <canvas id="myChartVitesseI"></canvas>
+    <canvas id="myChartVitesse"></canvas>
+    <canvas id="myChartAcceleration"></canvas>
+    <canvas id="myChartJerk"></canvas>
 </div>
 
 <script type="application/javascript">
     $( document ).ready(function() {
         console.log( "ready!" );
         resultatVitesse();
+        resultatVitesseInscription();
+        resultatAcceleration();
+        resultatJerk();
     });
 </script>

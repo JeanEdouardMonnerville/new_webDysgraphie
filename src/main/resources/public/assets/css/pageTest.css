@@ -3,7 +3,7 @@
     justify-content: space-around;
     text-align: center;
 }
-canvas{
+canvas#canvas_draw{
     background: white;
     height: 100%;
     width: 100%;
