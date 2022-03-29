@@ -1,26 +1,5 @@
-let url = 'http://localhost:8081/';
-
-function deleteEnregistrement(){
-    $.ajax({
-        url : url + 'remove',
-        headers : { 'token':localStorage.getItem('token')},
-        method: 'DELETE',
-        contentType: 'application/json',
-    }).done((data)=>{
-        console.log("sucess delete : ",data)
-    }).fail((data) =>{
-        console.log("fail delete : ",data)
-    })
-}
-
 function ajoutAnalyse(dataJson){
-    console.log(dataJson);
-    $.ajax({
-        url: url + 'analyse' ,
-        data : dataJson,
-        method: 'POST',
-        contentType:'application/json'
-    })
+    postAnalyse(dataJson)
         .done((data)=> {
             console.log("done :");
             console.log(data,data.token);

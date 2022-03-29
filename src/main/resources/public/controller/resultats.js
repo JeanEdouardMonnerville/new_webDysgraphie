@@ -1,10 +1,5 @@
 function resultatVitesseInscription(){
-    $.ajax({
-        url: url + 'resultat/vitesse/inscription' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatVitesseInscription()
         .done((data)=> {
             console.log("done resultatVitesseInscription:",data);
             lineChart(data,'Vitesse inscription','myChartVitesseI')
@@ -15,12 +10,7 @@ function resultatVitesseInscription(){
 }
 
 function resultatVitesse(){
-    $.ajax({
-        url: url + 'resultat/vitesse' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatVitesse()
         .done((data)=> {
             console.log("done resultatVitesse:",data);
             lineChart(data,'Vitesse','myChartVitesse')
@@ -32,12 +22,7 @@ function resultatVitesse(){
 
 }
 function resultatVitesseComparer(){
-    $.ajax({
-        url: url + 'resultat/comparer/vitesse' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatVitesseComparer()
         .done((data)=> {
             console.log("done resultatVitesseComparer:",data);
             // lineChart(data,'Vitesse comparée')
@@ -47,12 +32,7 @@ function resultatVitesseComparer(){
         })
 }
 function resultatAccelerationComparer(){
-    $.ajax({
-        url: url + 'resultat/comparer/acceleration' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatAccelerationComparer()
         .done((data)=> {
             console.log("done resultatAccelerationComparer:",data);
             // lineChart(data,'acceleration comparée')
@@ -62,12 +42,7 @@ function resultatAccelerationComparer(){
         })
 }
 function resultatAcceleration(){
-    $.ajax({
-        url: url + 'resultat/acceleration' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatAcceleration()
         .done((data)=> {
             console.log("done resultatAcceleration:",data);
             lineChart(data,'acceleration','myChartAcceleration')
@@ -77,12 +52,7 @@ function resultatAcceleration(){
         })
 }
 function resultatJerk(){
-    $.ajax({
-        url: url + 'resultat/jerk' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatJerk()
         .done((data)=> {
             console.log("done resultatJerk:",data);
             lineChart(data,'jerk','myChartJerk')
@@ -92,12 +62,7 @@ function resultatJerk(){
         })
 }
 function resultatJerkComparer(){
-    $.ajax({
-        url: url + 'resultat/comparer/jerk' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatJerkComparer()
         .done((data)=> {
             console.log("done resultatJerkComparer:",data);
             // lineChart(data,'jerk comparé')
@@ -107,16 +72,10 @@ function resultatJerkComparer(){
         })
 }
 function resultatTechnique(){
-    $.get(url + 'resultat/technique'
-    ).done((dataJson)=>{});
+    getresultatTechnique().done((dataJson)=>{});
 }
 function resultatDownload(){
-    $.ajax({
-        url: url + 'resultat/tdownload' ,
-        method: 'GET',
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:'application/json'
-    })
+    getresultatDownload()
         .done((data)=> {
             console.log("done resultatDownload:",data);
         })

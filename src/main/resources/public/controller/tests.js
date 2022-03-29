@@ -1,38 +1,14 @@
 function postResults() {
-    $.ajax({
-        url: 'ecriture',
-        method:'post',
-        data: JSON.stringify({
-            "liste_point":liste_point
-        }),
-        headers : { 'token':localStorage.getItem('token')},
-        contentType:"application/json",
-        success: function (response) {
+    postResult()
+        .done((data)=> {
             console.log("Envoi des résultats");
-            console.log(response);
+            console.log(data);
             $( "#container" ).load( "page/resultat.html" );
             // $("ul").unwrap();
-        },
-        error:function(e){
-            console.log(e);
-        }
-    });
-
-}
-
-function download(){
-    console.log("Lancement du téléchargement ...");
-    $.ajax({
-        url: 'resultat/download',
-        headers : { 'token':localStorage.getItem('token')},
-        success: function (response) {
-            console.log(response)
-            alert("Fichier Excel téléchargé !")
-        },
-        error:function(e){
-            console.log(e);
-        }
-    });
+        })
+        .fail((data)=> {
+            console.log(data);
+        })
 }
 
 function startTest(){

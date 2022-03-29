@@ -1,11 +1,5 @@
 function ajoutPatient(dataJson){
-    $.ajax({
-        url: url + 'patient' ,
-        data : JSON.stringify(dataJson),
-        headers : { 'token':localStorage.getItem('token')},
-        contentType: 'application/json',
-        method: 'POST'
-    })
+    postPatient(dataJson)
         .done((data)=> {
             console.log("succes ajoutPatient",data);
             if(localStorage.getItem("analyse")==="BHK") {
@@ -14,7 +8,6 @@ function ajoutPatient(dataJson){
         })
         .fail((data) => {
             console.log("fail ajoutPatient",data);
-
         })
 }
 
