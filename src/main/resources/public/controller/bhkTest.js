@@ -5,9 +5,9 @@ function postResults() {
         url: 'ecriture',
         method:'post',
         data: {
-            "liste_point":te,
-            "token" : localStorage.getItem("token")
+            "liste_point":te
         },
+        headers : { 'token':localStorage.getItem('token')},
         datatype:'html',
         success: function (response) {
             console.log("Envoi des résultats");
@@ -26,7 +26,7 @@ function download(){
     console.log("Lancement du téléchargement ...");
     $.ajax({
         url: 'resultat/download',
-        data : {'token':localStorage.getItem('token')},
+        headers : { 'token':localStorage.getItem('token')},
         success: function (response) {
             console.log(response)
             alert("Fichier Excel téléchargé !")
@@ -62,6 +62,8 @@ Pressure.set('#canvas_draw', {
             data: {
                 "pression":force
             },
+            headers : { 'token':localStorage.getItem('token')},
+
             error:function(resultat,statut,error){
                 console.log("error pression")
             }
@@ -103,6 +105,7 @@ function getPosition(oEvent, oCanvas){
             "pointX":parseInt(x),
             "pointY":parseInt(y)
         },
+        headers : { 'token':localStorage.getItem('token')},
         error:function(resultat,statut,error){
             console.log(error.responseText)
         }

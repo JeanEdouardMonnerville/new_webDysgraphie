@@ -1,7 +1,8 @@
 function ajoutAutorisation(dataJson){
     $.ajax({
         url: url + 'autorisation' ,
-        data : {'token':localStorage.getItem('token'), 'autorisation' : true},
+        data : JSON.stringify({'autorisation' : true}),
+        headers : { 'token':localStorage.getItem('token')},
         method: 'POST',
         contentType: 'application/json',
 
