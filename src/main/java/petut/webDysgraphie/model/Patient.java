@@ -4,6 +4,8 @@ package petut.webDysgraphie.model;
 import java.time.LocalDate;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import petut.webDysgraphie.api.responseFormat.LocalDateAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Patient {
@@ -13,6 +15,7 @@ public class Patient {
     private int age; 
     private String classe;
     private int anonymat;
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDate dateExamen;
 
     public Patient(String nom, String prenom, String sexe, int age, String classe, int anonymat,LocalDate dateExamen) {
