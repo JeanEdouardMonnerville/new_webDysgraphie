@@ -7,14 +7,14 @@ function ajoutAutorisation(dataJson){
 
     })
         .done((data)=> {
-            console.log(data)
+            console.log("done ajoutAutorisation",data);
+            $( "#container" ).load( "page/infoPatient.html" );
         })
         .fail((data) => {
-            console.log(data)
+            console.log("fail ajoutAutorisation",data)
         })
 }
 
 function autorisation(){
     ajoutAutorisation();
-    $( "#container" ).load( "page/infoPatient.html" );
 }
