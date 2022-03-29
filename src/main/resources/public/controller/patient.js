@@ -2,6 +2,7 @@ function ajoutPatient(dataJson){
     $.ajax({
         url: url + 'patient' ,
         data : dataJson,
+        headers : { 'token':localStorage.getItem('token')},
         contentType: 'application/json',
         method: 'POST'
     })
