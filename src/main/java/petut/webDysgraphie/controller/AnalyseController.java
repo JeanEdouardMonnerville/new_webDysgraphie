@@ -61,7 +61,8 @@ public class AnalyseController {
     public Analyse analyseInit(TypeAnalyse analyseType, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setTypeAnalyse(analyseType);
-        dataTools.saveAnalyseToXml(analyse, token);
+        
+        dataTools.saveAnalyseToXml(analyse, analyse.getToken());
         return analyse;
     }
 
@@ -75,7 +76,7 @@ public class AnalyseController {
     public Analyse ajoutPatient(Patient patient, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setPatient(patient);
-        dataTools.saveAnalyseToXml(analyse, token);
+        dataTools.saveAnalyseToXml(analyse, analyse.getToken());
         return analyse;
     }
 
@@ -89,7 +90,7 @@ public class AnalyseController {
     public Analyse ajoutMateriel(Materiel materiel, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setMateriel(materiel);
-        dataTools.saveAnalyseToXml(analyse, token);
+        dataTools.saveAnalyseToXml(analyse, analyse.getToken());
         return analyse;
     }
 
@@ -102,7 +103,7 @@ public class AnalyseController {
     public Analyse ajoutAutorisation(boolean autorisation, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.getAutorisation().setAccord(autorisation);
-        dataTools.saveAnalyseToXml(analyse, token);
+        dataTools.saveAnalyseToXml(analyse, analyse.getToken());
         return analyse;
     }
 
@@ -117,7 +118,7 @@ public class AnalyseController {
         Points points = new Points(listePoint);
         Tableau tableau = new Tableau(points);
         analyse.setTableau(tableau);
-        dataTools.saveAnalyseToXml(analyse, token);
+        dataTools.saveAnalyseToXml(analyse, analyse.getToken());
         
         return analyse;
     }
