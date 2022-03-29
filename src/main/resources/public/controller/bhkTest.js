@@ -1,14 +1,20 @@
+let d = false;
+let td = 0;
+let tf = 0;
 let te = 0;
+let num_point=1;
+let liste_point = [];
 
 function postResults() {
+    console.log('lis')
     $.ajax({
         url: 'ecriture',
         method:'post',
-        data: {
-            "liste_point":te
-        },
+        data: JSON.stringify({
+            "liste_point":liste_point
+        }),
         headers : { 'token':localStorage.getItem('token')},
-        datatype:'html',
+        contentType:"application/json",
         success: function (response) {
             console.log("Envoi des résultats");
             console.log(response);
@@ -45,37 +51,26 @@ function startTest(){
         });
     } else $( "#container" ).load( "page/consignePangramme.html" );
 }
-
+function bhkTstFini(){
+    console.log("bhkTstFini")
+    postResults();
+}
 //---------------------------CANVAS
+color = "#000";
+canvas_draw.width = canvas_draw.parentNode.offsetWidth - 10;
+canvas_draw.height = canvas_draw.parentNode.offsetHeight - 10;
+
+
 //change pen color
-function changeColor(){
-    color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+function changeColor() {
+    color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 }
 
-//récupérer pression
-Pressure.set('#canvas_draw', {
-    change: function(force, evt0){
-        chronoOn();
-        $.ajax({
-            type:'post',
-            url:'/addPression',
-            data: {
-                "pression":force
-            },
-            headers : { 'token':localStorage.getItem('token')},
-
-            error:function(resultat,statut,error){
-                console.log("error pression")
-            }
-        });
-    }
-}, {polyfill: true});
-
 // start drawing
-function moveDrawligne(oEvent){
+function moveDrawligne(oEvent) {
     var oCanvas = oEvent.currentTarget,
         oCtx = null, oPos = null;
-    if(oCanvas.bDraw ==false){
+    if (oCanvas.bDraw == false) {
         return false;
     }//if
     oPos = getPosition(oEvent, oCanvas);
@@ -93,50 +88,49 @@ function moveDrawligne(oEvent){
     oCanvas.posY = oPos.posY;
 }
 
-function getPosition(oEvent, oCanvas){
+function getPosition(oEvent, oCanvas) {
     var oRect = oCanvas.getBoundingClientRect(),
-        oEventEle = oEvent.changedTouches? oEvent.changedTouches[0]:oEvent;
+        oEventEle = oEvent.changedTouches ? oEvent.changedTouches[0] : oEvent;
     var x = (oEventEle.clientX - oRect.left) / (oRect.right - oRect.left) * oCanvas.width;
-    var y =(oEventEle.clientY - oRect.top) / (oRect.bottom - oRect.top) * oCanvas.height;
-    $.ajax({
-        type:'post',
-        url:'/addPoint',
-        data: {
-            "pointX":parseInt(x),
-            "pointY":parseInt(y)
-        },
-        headers : { 'token':localStorage.getItem('token')},
-        error:function(resultat,statut,error){
-            console.log(error.responseText)
+    var y = (oEventEle.clientY - oRect.top) / (oRect.bottom - oRect.top) * oCanvas.height;
+    let inter=0;
+    if(liste_point.length !=0){
+        inter=oEvent.timeStamp-liste_point[liste_point.length-1].tps
+    }
+    liste_point.push({
+            x: parseInt(x),
+            y: parseInt(y),
+            num:num_point,
+            inter:inter,
+            tps: oEvent.timeStamp,
         }
-    });
+    );
+    num_point++;
     return {
-        posX : x,
-        posY : y
+        posX: x,
+        posY: y,
     };
 }
 
-function downDrawligne(oEvent){
+function downDrawligne(oEvent) {
     t1 = Date.now();
     changeColor();
     oEvent.preventDefault();
-    var  oCanvas = oEvent.currentTarget,
+    var oCanvas = oEvent.currentTarget,
         oPos = getPosition(oEvent, oCanvas);
     oCanvas.posX = oPos.posX;
     oCanvas.posY = oPos.posY;
     oCanvas.bDraw = true;
-    capturer(false);
 }
 
-function upDrawligne(oEvent){
+function upDrawligne(oEvent) {
     t2 = Date.now()
-    te = te + (t2-t1)
+    te = te + (t2 - t1)
     var oCanvas = oEvent.currentTarget;
     oCanvas.bDraw = false;
-    capturer(true);
 }
 
-function initCanvas(){
+function initCanvas() {
     var oCanvas = document.getElementById("canvas_draw");
     oCanvas.bDraw = false;
     oCtx = oCanvas.getContext('2d');
@@ -147,39 +141,26 @@ function initCanvas(){
     oCanvas.addEventListener("touchend", upDrawligne);
     oCanvas.addEventListener("touchmove", moveDrawligne);
 }
-/**
- * Récupère le canva sous forme d'image
- */
-function capturer(bAction){
-    var oCapture = document.getElementById("capture_canvas");
-    oCapture.innerHTML = '';
-    if(bAction == true){
-        var oImage = document.createElement('img'),
-            oCanvas = document.getElementById("canvas_draw");
-        oImage.src = oCanvas.toDataURL("image/png");
-        oCapture.appendChild(oImage);
-    }
-}
 
 /**
  * Vide les dessin du canvas
  */
-function nettoyer(oEvent){
-    var  oCanvas = document.getElementById("canvas_draw"),
+function nettoyer(oEvent) {
+    var oCanvas = document.getElementById("canvas_draw"),
         oCtx = oCanvas.getContext('2d');
-    oCtx.clearRect(0,0,oCanvas.width,oCanvas.height);
+    oCtx.clearRect(0, 0, oCanvas.width, oCanvas.height);
     capturer(false);
-
-    $.ajax({
-        url: '/erase',
-        success: function (response) {
-            console.log("Canvas effacé");
-        }
-    });
+    liste_point=[];
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    initCanvas();
+    document.getElementById("button_clear").addEventListener("click", nettoyer);
+});
+
+
 // remove callback function when mouse up
-canvas_draw.onmouseup = function(evt) {
+canvas_draw.onmouseup = function (evt) {
     canvas_draw.onmousemove = {};
 };
 
