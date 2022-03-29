@@ -45,9 +45,9 @@ public class Tableau {
 
     public Tableau(Points points) {
         this.points = points;
-        this.vitesses=new Vitesses();
-        this.accelerations=new Accelerations();
-        this.jerks=new Jerks();
+        this.vitesses=new Vitesses(new ArrayList<>());
+        this.accelerations=new Accelerations(new ArrayList<>());
+        this.jerks=new Jerks(new ArrayList<>());
         calculerVitesseJerkAcceleration();
     }
 
