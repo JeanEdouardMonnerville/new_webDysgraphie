@@ -3,7 +3,7 @@ let url = 'http://localhost:8081/';
 function deleteEnregistrement(){
     $.ajax({
         url : url + 'remove',
-        header: {'token':localStorage.getItem('token')},
+        headers : { 'token':localStorage.getItem('token')},
         method: 'DELETE',
         contentType: 'application/json',
     }).done((data)=>{
