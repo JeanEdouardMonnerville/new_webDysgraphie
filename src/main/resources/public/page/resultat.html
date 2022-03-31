@@ -3,8 +3,9 @@
         <h1 class="m-3">Resultat</h1>
     </div>
     <div class="col text-end mt-5">
-        <button class="btn btn-danger" onclick="">Télégarcher résultat</button>
-        <button class="btn btn-danger" onclick="">importer un test à comparer</button>
+        <button class="btn btn-danger" onclick="resultatDownload()">Télégarcher résultat</button>
+        <button class="btn btn-info" onclick="uploadFile()">importer un test à comparer</button>
+        <input  id="fileUpload" type="file" name="fileupload" />
     </div>
 
     <div id="box" class="col-10 p-5">
@@ -27,10 +28,16 @@
             </div>
         </div>
     </div>
-    <canvas id="myChartVitesseI"></canvas>
-    <canvas id="myChartVitesse"></canvas>
-    <canvas id="myChartAcceleration"></canvas>
-    <canvas id="myChartJerk"></canvas>
+    <div class="row">
+        <div class="col">
+            <canvas id="myChartVitesseI"></canvas>
+            <canvas id="myChartVitesse"></canvas>
+        </div>
+        <div class="col">
+            <canvas id="myChartAcceleration"></canvas>
+            <canvas id="myChartJerk"></canvas>
+        </div>
+    </div>
 </div>
 
 <script type="application/javascript">

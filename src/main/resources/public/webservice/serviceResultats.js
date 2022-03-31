@@ -73,7 +73,7 @@ function getresultatTechnique(){
 }
 function getresultatDownload(){
     return $.ajax({
-        url: url + 'resultat/tdownload' ,
+        url: url + 'resultat/download' ,
         method: 'GET',
         headers : { 'token':localStorage.getItem('token')},
         contentType:'application/json'

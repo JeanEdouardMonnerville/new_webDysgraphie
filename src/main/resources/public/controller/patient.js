@@ -19,6 +19,13 @@ function information(){
     let sexe = $("#addPatientsexe").val();
     let dateExam = $("#addPatientdateExamen").val();
     let anonymat = $("#addPatientAnonymat").val();
+    addPatientdateExamen
+    if ($('#addPatientdateExamen').val() ===''){
+        $('.alert-danger').removeClass('d-none')
+        $('.alert-danger').html("La date d'examen doit être renseigner.")
+        console.log("date required")
+        return null
+    }else  $('.alert-danger').addClass('d-none');
     datajson = {nom:nom,prenom:prenom,sexe:sexe,age:age,classe:classe,anonymat:anonymat,dateExamen:dateExam};
     ajoutPatient(datajson);
 }
