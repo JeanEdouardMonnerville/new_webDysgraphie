@@ -83,3 +83,12 @@ function resultatDownload(){
             console.log('erreur resultatDownload: ' ,data);
         })
 }
+
+function getUrlResultat(){
+    return url + 'resultat/download/'+localStorage.getItem('token');
+}
+
+function putUrlResultat(){
+    let downloadExcel = document.getElementById("idDownloadUrl");
+    downloadExcel.href=getUrlResultat();
+}

@@ -3,11 +3,11 @@
         <h1 class="m-3">Resultat</h1>
     </div>
     <div class="col text-end mt-5">
-        <button class="btn btn-danger" onclick="resultatDownload()">Télégarcher résultat</button>
+        <!--<button class="btn btn-danger" onclick="resultatDownload()">Télégarcher résultat</button>-->
+        <a href="getUrlResultat()" id="idDownloadUrl" class="btn btn-danger">Télégarcher résultat</a>
         <button class="btn btn-info" onclick="uploadFile()">importer un test à comparer</button>
         <input  id="fileUpload" type="file" name="fileupload" />
     </div>
-
     <div id="box" class="col-10 p-5">
         <div class="row">
             <div class="col-3">
@@ -47,5 +47,6 @@
         resultatVitesseInscription();
         resultatAcceleration();
         resultatJerk();
+        putUrlResultat();
     });
 </script>
