@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<analyse>
+    <token>null</token>
+    <typeAnalyse>null</typeAnalyse>
+    <patient>
+        <nom>null</nom>
+        <prenom>null</prenom>
+        <sexe>null</sexe>
+        <age>null</age>
+        <classe>null</classe>
+        <anonymat>null</anonymat>
+        <dateDebut>null</dateDebut>
+    </patient>
+    <materiel>
+        <materielType>null</materielType>
+    </materiel>
+    <autorisation>
+        <accord>false</accord>
+    </autorisation>
+    <tableau>
+        <points>
+            <point>
+                <x>null</x>
+                <y>null</y>
+            </point>
+        </points>
+        <vitesses>
+            <vitesse>
+                <x>null</x>
+                <y>null</y>
+            </vitesse>
+        </vitesses>
+        <accelerations>
+            <acceleration>
+                <x>null</x>
+                <y>null</y>
+            </acceleration>
+        </accelerations>
+        <jerks>
+            <jerk>
+                <x>null</x>
+                <y>null</y>
+            </jerk>
+        </jerks>
+        <tempsDebut>null</tempsDebut>
+        <version>v.1.14</version>
+        <pixelToCm>0.02646</pixelToCm>
+    </tableau>
+</analyse>
