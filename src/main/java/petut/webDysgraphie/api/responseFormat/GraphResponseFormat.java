@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class GraphResponseFormat {
     private ArrayList<Double> liste_x;
     private ArrayList<Double> liste_y;
-    private double valeurPatient;
 
     public GraphResponseFormat() {
     }
@@ -24,19 +23,9 @@ public class GraphResponseFormat {
         this.liste_y = liste_y;
     }
 
-    public GraphResponseFormat(ArrayList<Double> liste_x, ArrayList<Double> liste_y, double valeurPatient) {
-        this.liste_x = liste_x;
-        this.liste_y = liste_y;
-        this.valeurPatient = valeurPatient;
-    }
 
-    public void setValeurPatient(double valeurPatient) {
-        this.valeurPatient = valeurPatient;
-    }
 
-    public double getValeurPatient() {
-        return valeurPatient;
-    }
+
 
     public ArrayList<Double> getListe_x() {
         return liste_x;
@@ -47,7 +36,15 @@ public class GraphResponseFormat {
     }
 
     public void setListe_x(ArrayList<Double> liste_x) {
-        this.liste_x = liste_x;
+        ArrayList<Double> result = new ArrayList<>();
+        
+        //On s'assure que la courbe commence à 0
+        double firstValue=liste_x.get(0);
+        for(int i=0; i<liste_x.size();i++){
+            result.add(liste_x.get(i)-firstValue);
+        }
+        
+        this.liste_x = result;
     }
 
     public void setListe_y(ArrayList<Double> liste_y) {
