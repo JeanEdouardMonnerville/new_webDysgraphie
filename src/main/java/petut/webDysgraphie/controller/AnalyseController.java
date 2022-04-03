@@ -1,8 +1,10 @@
 package petut.webDysgraphie.controller;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import petut.webDysgraphie.api.responseFormat.GraphResponseFormat;
+import petut.webDysgraphie.api.responseFormat.GraphVitesseGaussResponseFormat;
 import petut.webDysgraphie.dataToolkit.DataTools;
 import petut.webDysgraphie.dataToolkit.MathTools;
 import petut.webDysgraphie.model.Analyse;
@@ -28,20 +30,25 @@ public class AnalyseController {
     public AnalyseController() {
     }
 
+    public String getFileName(String token) {
+        Analyse analyse = dataTools.readAnalyseFromXml(token);
+        
+        String fileName = analyse.getPatient().getNom() + "_"
+                + analyse.getPatient().getPrenom() + "_"
+                + analyse.getPatient().getClasse() + "_"
+                + analyse.getPatient().getDateExamen().toString();
+        return fileName;
+    }
+
     /**
      * Créer un document excel dans le dossier Téléchargement du client
      *
      * @param token d'accès au données
      */
-    public Analyse downloadResultat(String token) {
+    public ByteArrayInputStream downloadResultat(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-
-        String fileName = analyse.getPatient().getNom() + "_"
-                + analyse.getPatient().getPrenom() + "_"
-                + analyse.getPatient().getClasse() + "_"
-                + analyse.getPatient().getDateExamen().toString();
-        analyse.getTableau().DownloadExcel(fileName, "sheet1");
-        return analyse;
+        String fileName = getFileName(token);
+        return analyse.getTableau().DownloadExcel(fileName, "sheet1");
     }
 
     public Analyse getAnalyse(String token) {
@@ -61,7 +68,7 @@ public class AnalyseController {
     public Analyse analyseInit(TypeAnalyse analyseType, String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
         analyse.setTypeAnalyse(analyseType);
-        
+
         dataTools.saveAnalyseToXml(analyse, analyse.getToken());
         return analyse;
     }
@@ -119,7 +126,7 @@ public class AnalyseController {
         Tableau tableau = new Tableau(points);
         analyse.setTableau(tableau);
         dataTools.saveAnalyseToXml(analyse, analyse.getToken());
-        
+
         return analyse;
     }
 
@@ -138,17 +145,18 @@ public class AnalyseController {
         return result;
     }
 
-    public GraphResponseFormat getResultatVitesseInscription(String token) {
+    public GraphVitesseGaussResponseFormat getResultatVitesseInscription(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
 
-        GraphResponseFormat result = new GraphResponseFormat();
-        result.setListe_x(mathTools.normalDensityX(-100, 100));
-        result.setListe_y(mathTools.normalDensityY(result.getListe_x()));
+        GraphVitesseGaussResponseFormat result = new GraphVitesseGaussResponseFormat();
+        result.setListe_Gauss_x(mathTools.normalDensityX(-100, 100));
+        result.setListe_Gauss_y(mathTools.normalDensityY(result.getListe_Gauss_x()));
 
         double valeurPatient = mathTools.normalDensity(analyse.getTableau().createMoyenneVitesse()
                 / analyse.getTableau().createEcartTypeVitesse());
 
-        result.setValeurPatient(valeurPatient);
+        result.setListe_x(mathTools.createPatientResultList_x(5, valeurPatient));
+        result.setListe_y(mathTools.createPatientResultList_y(5));
 
         return result;
     }
@@ -181,7 +189,7 @@ public class AnalyseController {
 
         result.setListe_x(analyse.getTableau().getJerks().createListeX());
         result.setListe_y(analyse.getTableau().getJerks().createListeY());
-        
+
         return result;
     }
 
