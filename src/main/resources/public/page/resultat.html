@@ -5,44 +5,59 @@
     <div class="col text-end mt-5">
         <button class="btn btn-danger" onclick="resultatDownload()">Télégarcher résultat</button>
         <button class="btn btn-info" onclick="uploadFile()">importer un test à comparer</button>
-        <input  id="fileUpload" type="file" name="fileupload" />
+        <input id="fileUpload" type="file" name="fileupload"/>
     </div>
+</div>
 
-    <div id="box" class="col-10 p-5">
-        <div class="row">
-            <div class="col-3">
-                Vitesse :
-            </div>
-            <div class="col">
-                <div class="row">
-                    <div class="col">
-                        <div>Score :</div>
-                        <div class="score">XX</div>
-                    </div>
-                    <div class="col">
-                        <div>Moyenne :</div>
-                        <div class="moyenne">XX</div>
-                    </div>
-                </div>
-
+<!--<div class="row g-3">-->
+<!--    <-->
+<!--</div>-->
+<div class="row justify-content-lg-center g-3 mb-5">
+    <div class="col-lg-3 col-md">
+        <div class="mycard cardgardient p-3">
+            <div class="card-title"> Vitesse :</div>
+            <div>Score :
+                <span class="score">XX</span>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
+    <div class="col-lg-3 col-md">
+        <div class="mycard cardgardient p-3">
+            <div class="card-title"> Vitesse :</div>
+            <div>Moyenne :
+                <span class="moyenne">XX</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3">
+
+    <div class=" col-lg-6 col-md-12">
+        <div class="mycard">
             <canvas id="myChartVitesseI"></canvas>
+        </div>
+    </div>
+    <div class=" col-lg-6 col-md-12">
+        <div class=" mycard">
             <canvas id="myChartVitesse"></canvas>
         </div>
-        <div class="col">
+    </div>
+    <div class="col-lg-6 col-md-12">
+        <div class=" mycard">
             <canvas id="myChartAcceleration"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12">
+        <div class="mycard">
             <canvas id="myChartJerk"></canvas>
         </div>
     </div>
 </div>
+</div>
 
 <script type="application/javascript">
-    $( document ).ready(function() {
-        console.log( "ready!" );
+    $(document).ready(function () {
+        console.log("ready!");
         resultatVitesse();
         resultatVitesseInscription();
         resultatAcceleration();

@@ -8,6 +8,8 @@ canvas#canvas_draw{
     height: 100%;
     width: 100%;
     min-height: 800px;
+    border: solid 4px #F16D6F;
+    border-radius: 10px;
 }
 .minutes,
 .seconds {

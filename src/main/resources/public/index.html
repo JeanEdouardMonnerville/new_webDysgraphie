@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="assets/css/timer.css">
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
             <img src="/assets/images/logoIFPT.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -25,13 +25,17 @@
     </div>
 </nav>
 <div class="container-fluid mb-5" id="container">
-    <div class="text-center">
-        <h1 class="m-3" > Évaluez votre écriture !</h1>
-        <h2 class="m-3">Analysez et examinez la précision de votre écriture grâce aux tests de détection de la dysgraphie
-            <br>Quel test désirez-vous faire ?</h2>
-        <button class="btn btn-danger" onclick="analysechoice('BHK')">BHK</button>
-<!--        <button class="btn btn-danger " onclick="analysechoice('BHKADO')">BHK ADO</button>-->
-        <button class="btn btn-danger " onclick="analysechoice('cinematique')">Pangramme</button>
+    <div class="row fullrow justify-content-center align-items-center">
+        <div class="col-10 p-3 mycard">
+            <h1  > Évaluez votre écriture !</h1>
+            <p class="fw-lighter signika">Analysez et examinez la précision de votre écriture grâce aux tests de détection de la dysgraphie</p>
+                <p>Quel test désirez-vous faire ?</p>
+            <div class="align-center mt-5 text-center">
+                <button class="btn btn-danger " onclick="analysechoice('BHK')">BHK</button>
+                <!--        <button class="btn btn-danger " onclick="analysechoice('BHKADO')">BHK ADO</button>-->
+                <button class="btn btn-danger " onclick="analysechoice('cinematique')">Pangramme</button>
+            </div>
+        </div>
     </div>
 </div>
 <footer> <a href="">Mentions légales</a></footer>
