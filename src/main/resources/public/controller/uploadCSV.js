@@ -3,7 +3,7 @@ function uploadFile(){
     let fileUpload = document.getElementById("fileUpload");
 
 //Validate whether File is valid Excel file.
-    let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+    let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv)$/;
     if (regex.test(fileUpload.value.toLowerCase())) {
         if (typeof (FileReader) != "undefined") {
             var reader = new FileReader();
@@ -30,6 +30,6 @@ function uploadFile(){
             alert("This browser does not support HTML5.");
         }
     } else {
-        alert("Please upload a valid Excel file.");
+        alert("Please upload a valid CSV file.");
     }
 }
