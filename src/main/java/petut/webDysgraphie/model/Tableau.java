@@ -1,5 +1,7 @@
 package petut.webDysgraphie.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -45,9 +47,9 @@ public class Tableau {
 
     public Tableau(Points points) {
         this.points = points;
-        this.vitesses=new Vitesses(new ArrayList<>());
-        this.accelerations=new Accelerations(new ArrayList<>());
-        this.jerks=new Jerks(new ArrayList<>());
+        this.vitesses = new Vitesses(new ArrayList<>());
+        this.accelerations = new Accelerations(new ArrayList<>());
+        this.jerks = new Jerks(new ArrayList<>());
         calculerVitesseJerkAcceleration();
     }
 
@@ -107,18 +109,21 @@ public class Tableau {
         }
         tempsDebut = listPoint.get(0).getTps();
         for (int i = 0; i < listPoint.size(); i++) {
-            if (i > 1) {
+            if (i > 0) {
                 double dist = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
                 dist = dist * pixelToCm;//Convertion en cm
                 // Vitesse (J)
                 int deriveTemps = listPoint.get(i).getInterval();
                 double vit = dist / deriveTemps;
-
-                vitesses.getVitesses().add(new Vitesse(listPoint.get(i).getTps(), vit));
+                if ((vit > 0 || vit < 0) && vit != Double.POSITIVE_INFINITY && vit != Double.NEGATIVE_INFINITY) {
+                    vitesses.getVitesses().add(new Vitesse(listPoint.get(i).getTps(), vit));
+                } else {
+                    vitesses.getVitesses().add(new Vitesse(listPoint.get(i).getTps(), 0));
+                }
 
             }
 
-            if (i > 2) {
+            if (i > 1) {
                 int deriveTemps1 = listPoint.get(i).getTps() - listPoint.get(i - 1).getTps();
                 double dist1 = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
                 double vit1 = dist1 / deriveTemps1;
@@ -131,9 +136,11 @@ public class Tableau {
                 double acc = (vit1 - vit2) / (deriveTemps1 - deriveTemps2);
                 if ((acc > 0 || acc < 0) && acc != Double.POSITIVE_INFINITY && acc != Double.NEGATIVE_INFINITY) {
                     accelerations.getAccelerations().add(new Acceleration(listPoint.get(i).getTps(), acc));
+                } else {
+                    accelerations.getAccelerations().add(new Acceleration(listPoint.get(i).getTps(), 0));
                 }
             }
-            if (i > 3) {
+            if (i > 2) {
                 double d1 = listPoint.get(i - 2).distanceAvec(listPoint.get(i - 3));
                 double d2 = listPoint.get(i - 1).distanceAvec(listPoint.get(i - 2));
                 double d3 = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
@@ -152,12 +159,14 @@ public class Tableau {
                 double jerk = (a2 - a1) / ((deriveTemps3 - deriveTemps2) - (deriveTemps2 - deriveTemps1));
                 if ((jerk > 0 || jerk < 0) && jerk != Double.POSITIVE_INFINITY && jerk != Double.NEGATIVE_INFINITY) {
                     jerks.getJerks().add(new Jerk(listPoint.get(i).getTps(), jerk));
+                } else {
+                    jerks.getJerks().add(new Jerk(listPoint.get(i).getTps(), 0));
                 }
             }
         }
     }
 
-    public void DownloadExcel(String fileName, String sheetName) {
+    public ByteArrayInputStream DownloadExcel(String fileName, String sheetName) {
         ArrayList<Point> listPoint = points.getPoints();
         FileOutputStream outFile = null;
         try {
@@ -284,6 +293,25 @@ public class Tableau {
                 }
                 cell = row.createCell(6, CellType.NUMERIC);
                 cell.setCellValue(num);
+                if (rownum == 1) {
+                    //Vitesse
+                    cell = row.createCell(13, CellType.NUMERIC);
+                    cell.setCellValue(moyenne(vitesses.createListeY()));
+                    cell = row.createCell(14, CellType.NUMERIC);
+                    cell.setCellValue(ecartType(vitesses.createListeY()));
+                    //Accélération
+                    cell = row.createCell(15, CellType.NUMERIC);
+                    cell.setCellValue(moyenne(accelerations.createListeY()));
+
+                    cell = row.createCell(16, CellType.NUMERIC);
+                    cell.setCellValue(ecartType(accelerations.createListeY()));
+                    //Jerk
+                    cell = row.createCell(17, CellType.NUMERIC);
+                    cell.setCellValue(moyenne(jerks.createListeY()));
+
+                    cell = row.createCell(18, CellType.NUMERIC);
+                    cell.setCellValue(ecartType(jerks.createListeY()));
+                }
                 // Distance (I)
                 if (rownum > 1) {
                     double dist = listPoint.get(i).distanceAvec(listPoint.get(i - 1));
@@ -291,13 +319,13 @@ public class Tableau {
                     cell = row.createCell(8, CellType.NUMERIC);
                     cell.setCellValue(dist);
                     cell = row.createCell(9, CellType.NUMERIC);
-                    cell.setCellValue(vitesses.getVitesses().get(i).getY());
+                    cell.setCellValue(vitesses.getVitesses().get(i - 1).getY());
 
                 }
                 // Accélération (K)
                 if (rownum > 2) {
                     double nbP = 0;
-                    double acc = accelerations.getAccelerations().get(i).getY();
+                    double acc = accelerations.getAccelerations().get(i - 2).getY();
                     cell = row.createCell(10, CellType.NUMERIC);
                     cell.setCellValue(acc);
 
@@ -316,49 +344,19 @@ public class Tableau {
 
                 //Jerk (M)
                 if (rownum > 3) {
-                    double jerk = jerks.getJerks().get(i).getY();
+                    double jerk = jerks.getJerks().get(i - 3).getY();
                     cell = row.createCell(12, CellType.NUMERIC);
                     cell.setCellValue(jerk);
 
                 }
             }
-            /*
-            //Calcul des moyennes et écart-type 
-            row = sheet.createRow(1);
-            //Vitesse
-            cell = row.createCell(13, CellType.NUMERIC);
-            cell.setCellValue(moyenne(vitesses));
-            cell = row.createCell(14, CellType.NUMERIC);
-            cell.setCellValue(ecartType(vitesses));
-            //Accélération
-            cell = row.createCell(15, CellType.NUMERIC);
-            cell.setCellValue(moyenne(accelerations));
 
-            cell = row.createCell(16, CellType.NUMERIC);
-            cell.setCellValue(ecartType(accelerations));
-            System.out.println(accelerations);
-            //Jerk
-            cell = row.createCell(17, CellType.NUMERIC);
-            cell.setCellValue(moyenne(jerks));
-
-            cell = row.createCell(18, CellType.NUMERIC);
-            cell.setCellValue(ecartType(jerks));*/
-
-            File file = new File("./Dataset/" + fileName);
-            file.getParentFile().mkdirs();
-            outFile = new FileOutputStream(file);
-            workbook.write(outFile);
-            System.out.println("Created file: " + file.getAbsolutePath());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Tableau.class.getName()).log(Level.SEVERE, null, ex);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (IOException ex) {
-            Logger.getLogger(Tableau.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                outFile.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Tableau.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ex.printStackTrace();
+            return null;
         }
     }
 
@@ -381,8 +379,6 @@ public class Tableau {
         }
         return ecartType(valueVitesse);
     }
-    
-
 
     private double moyenne(ArrayList<Double> list) {
         double S = 0;

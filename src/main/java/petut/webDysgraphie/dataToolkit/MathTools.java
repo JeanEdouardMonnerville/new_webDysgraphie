@@ -22,7 +22,23 @@ public class MathTools {
     public ArrayList<Double> normalDensityX(int rangeDebut, int rangeFin) {
         ArrayList<Double> result = new ArrayList<>();
         for (int i = rangeDebut; i < rangeFin; i++) {
-            result.add( (double) i/100);
+            result.add((double) i / 100);
+        }
+        return result;
+    }
+
+    public ArrayList<Double> createPatientResultList_x(int size, double patientValue) {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            result.add(patientValue);
+        }
+        return result;
+    }
+
+    public ArrayList<Double> createPatientResultList_y(int size) {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            result.add((double) i/10);
         }
         return result;
     }
