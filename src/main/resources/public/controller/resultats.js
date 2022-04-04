@@ -2,7 +2,14 @@ function resultatVitesseInscription(){
     getresultatVitesseInscription()
         .done((data)=> {
             console.log("done resultatVitesseInscription:",data);
-            lineChart(data,'Vitesse inscription','myChartVitesseI')
+            let colors = [];
+            let val = data.liste_x[0].toFixed(2);
+            for (let i = 0; i<data.liste_Gauss_x.length; i++){
+                if (data.liste_Gauss_x[i]==val){
+                    colors.push('rgb(255, 0, 0)')
+                } else colors.push('rgb(75, 192, 192)')
+            }
+            lineChart(data.liste_Gauss_x,data.liste_Gauss_y,colors,'Vitesse inscription','myChartVitesseI')
         })
         .fail((data) => {
             console.log('erreur resultatVitesseInscription: ' ,data);
@@ -13,7 +20,7 @@ function resultatVitesse(){
     getresultatVitesse()
         .done((data)=> {
             console.log("done resultatVitesse:",data);
-            lineChart(data,'Vitesse','myChartVitesse')
+            lineChart(data.liste_x,data.liste_y,[],'Vitesse','myChartVitesse')
 
         })
         .fail((data) => {
@@ -45,7 +52,7 @@ function resultatAcceleration(){
     getresultatAcceleration()
         .done((data)=> {
             console.log("done resultatAcceleration:",data);
-            lineChart(data,'acceleration','myChartAcceleration')
+            lineChart(data.liste_x,data.liste_y,[],'acceleration','myChartAcceleration')
         })
         .fail((data) => {
             console.log('erreur resultatAcceleration: ' ,data);
@@ -55,7 +62,7 @@ function resultatJerk(){
     getresultatJerk()
         .done((data)=> {
             console.log("done resultatJerk:",data);
-            lineChart(data,'jerk','myChartJerk')
+            lineChart(data.liste_x,data.liste_y,[],'jerk','myChartJerk')
         })
         .fail((data) => {
             console.log('erreur resultatJerk: ' ,data);
