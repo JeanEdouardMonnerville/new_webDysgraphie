@@ -123,7 +123,7 @@ public class RestController {
     @GetMapping(path = "/resultat/download/{token}")
     public void downloadResult(@Context HttpServletRequest request,@Context HttpServletResponse response,@PathVariable String token) throws IOException {
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename="+analyseController.getFileName(token)+".csv");
+        response.setHeader("Content-Disposition", "attachment; filename="+analyseController.getFileName(token)+".xls");
         ByteArrayInputStream stream = analyseController.downloadResultat(token);
         IOUtils.copy(stream, response.getOutputStream());
     }
