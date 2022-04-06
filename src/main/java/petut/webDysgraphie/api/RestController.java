@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import petut.webDysgraphie.api.responseFormat.GraphResponseFormat;
+import petut.webDysgraphie.api.responseFormat.GraphResponseImportExcel;
 import petut.webDysgraphie.api.responseFormat.GraphVitesseGaussResponseFormat;
 import petut.webDysgraphie.controller.AnalyseController;
 import petut.webDysgraphie.model.Analyse;
@@ -118,12 +121,12 @@ public class RestController {
      *
      * @param request Il faut dans chaque requête envoyer un token d'accès dans
      * le header comme : "token":"HGSNSLQUHAB"
-     * @param response
-////     */
+     * @param response ////
+     */
     @GetMapping(path = "/resultat/download/{token}")
-    public void downloadResult(@Context HttpServletRequest request,@Context HttpServletResponse response,@PathVariable String token) throws IOException {
+    public void downloadResult(@Context HttpServletRequest request, @Context HttpServletResponse response, @PathVariable String token) throws IOException {
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename="+analyseController.getFileName(token)+".xls");
+        response.setHeader("Content-Disposition", "attachment; filename=" + analyseController.getFileName(token) + ".xls");
         ByteArrayInputStream stream = analyseController.downloadResultat(token);
         IOUtils.copy(stream, response.getOutputStream());
     }
@@ -251,5 +254,10 @@ public class RestController {
     public void removeExamen(@Context HttpServletRequest request) {
         String token = request.getHeader("token");
         analyseController.finDeSession(token);
+    }
+    
+    @PostMapping(value="resultat/import")
+    public GraphResponseImportExcel imports(@RequestParam("excelFile") MultipartFile excelfile) {
+       return analyseController.importexcel(excelfile);
     }
 }
