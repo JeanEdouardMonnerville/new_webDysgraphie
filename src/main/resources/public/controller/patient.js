@@ -13,8 +13,8 @@ function ajoutPatient(dataJson){
 
 function information(){
     let age = $("#addPatientage").val();
-    let nom = $("#addPatientLibelle").val();
-    let prenom = $("#addPatientLibelle").val();
+    let nom = $("#addPatientNom").val();
+    let prenom = $("#addPatientPrenom").val();
     let classe = $("#addPatientclasse").val();
     let sexe = $("#addPatientsexe").val();
     let dateExam = $("#addPatientdateExamen").val();

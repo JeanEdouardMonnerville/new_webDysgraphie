@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+:root {
+    --background: #000;
+    --background-img: url("/assets/images/bgrose.svg");
+    --text: #fff;
+    --highlight: #394E66;
+}
+body {
+    background-image: var(--background-img);
+    transition: 0.5s background ease;
+}
+.theme-switch {
+    --background: #fff;
+    --text: #000;
+    color: var(--text);
+    width: 70px;
+    height: 30px;
+    background: var(--highlight);
+    border-radius: 50px;
+    position: relative;
+}
+.dark-theme .theme-switch{
+    background: #F16D6F;
+}
+.theme-switch .switch {
+    background: white;
+    width: 24px;
+    height: 24px;
+    background: var(--background);
+    border-radius: 100%;
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    transition: 0.5s all ease;
+}
+.dark-theme {
+    /*--background: #fff;*/
+    --background-img: url("/assets/images/bgbleu.svg");
+    --text: #000;
+    background-image: var(--background-img);
+}
+/*.dark-theme .theme-switch {*/
+/*    background: var(--text);*/
+/*}*/
+.dark-theme .theme-switch .switch {
+    transform: translateX(37px);
+}
+.dark-theme .mycard,.dark-theme .mycard.cardgardient,
+.dark-theme nav.navbar.navbar-light.bg-light,.dark-theme nav.navbar.navbar-light.bg-light .navbar-brand{
+    background-color: #15283E!important;
+    color: #F2F4F8!important;
+    background-image: none;
+}
+.dark-theme canvas#canvas_draw{
+    background-color: #15283E;
+    border-color:  #BFCCDA;
+}
+.dark-theme .btn.btn-danger, .dark-theme input{
+    background-color: #4E647E;
+    border-color:  #4E647E;
+}
+.dark-theme footer a,.dark-theme input{
+    color: #F2F4F8;
+}
+

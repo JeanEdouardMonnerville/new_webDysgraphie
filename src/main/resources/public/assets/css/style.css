@@ -9,23 +9,44 @@ orange2 : #F7C387 (orange claire)
 saumon  : #F69679
 blanc   : #F5F5F5
  */
+@import url('https://fonts.googleapis.com/css2?family=Signika:wght@600&display=swap');
 @font-face{
     font-family:'digital';
     src: url('digital-7/digital-7.ttf');
 }
 
 body {
-    background-color: #f69679;
     font-family: 'Alegreya CS', sans-serif;
     color: white;
+    background-image: url("/assets/images/bgrose.svg");
+    height: 100vh;
+    background-size: cover;
+}
+.btn.btn-danger{
+    background-color: #F16D6F;
+}
+h1, .signika, .card-title{
+    font-family: 'Signika', sans-serif;
 }
 
+.row.fullrow{
+    height: 80vh;
+}
+.mycard{
+    background-color: white;
+    color: black;
+}
 
-#elephant {
-    position: absolute;
-    right: 10%;
-    bottom: 35px;
-    width: 10%;
+.mycard.cardgardient{
+    background-image: linear-gradient(230deg, #fc5286, #fbaaa2);
+    color: white;
+    line-height: 18px;
+    border-radius: 10px;
+}
+.card-title{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
 }
 
 .text-consigne{
@@ -35,11 +56,7 @@ body {
 }
 
 footer {
-    background-color: #E77655;
-    position: fixed;
     font-size: 13px;
-    width: 100%;
-    bottom: 0px;
     line-height: 40px;
 }
 
@@ -57,7 +74,7 @@ footer a {
 
 #box {
     border-radius: 10px;
-    border: 1px solid white;
+    border: 1px solid black;
 }
 
 

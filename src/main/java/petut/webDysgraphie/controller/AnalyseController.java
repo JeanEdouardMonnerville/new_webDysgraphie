@@ -2,8 +2,13 @@ package petut.webDysgraphie.controller;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import petut.webDysgraphie.api.responseFormat.GraphResponseFormat;
+import petut.webDysgraphie.api.responseFormat.GraphResponseImportExcel;
 import petut.webDysgraphie.api.responseFormat.GraphVitesseGaussResponseFormat;
 import petut.webDysgraphie.dataToolkit.DataTools;
 import petut.webDysgraphie.dataToolkit.MathTools;
@@ -32,7 +37,7 @@ public class AnalyseController {
 
     public String getFileName(String token) {
         Analyse analyse = dataTools.readAnalyseFromXml(token);
-        
+
         String fileName = analyse.getPatient().getNom() + "_"
                 + analyse.getPatient().getPrenom() + "_"
                 + analyse.getPatient().getClasse() + "_"
@@ -200,5 +205,48 @@ public class AnalyseController {
      */
     public void finDeSession(String token) {
         dataTools.deleteThisFile(token);
+    }
+
+    public GraphResponseImportExcel importexcel(MultipartFile excelfile) {
+        GraphResponseImportExcel result = new GraphResponseImportExcel();
+        try {
+            int i = 0;
+
+            XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+
+            XSSFSheet worksheet = workbook.getSheetAt(0);
+
+            while (i <= worksheet.getLastRowNum()) {
+
+                XSSFRow row = worksheet.getRow(i++);
+
+                result.getListe_vitesse_x().add(row.getCell(5).getNumericCellValue());
+                result.getListe_acceleration_x().add(row.getCell(5).getNumericCellValue());
+                result.getListe_jerk_x().add(row.getCell(5).getNumericCellValue());
+
+                if (i > 1) {
+                    result.getListe_vitesse_y().add(row.getCell(9).getNumericCellValue());
+                }
+                if (i > 2) {
+                    result.getListe_acceleration_y().add(row.getCell(10).getNumericCellValue());
+                }
+                if (i > 3) {
+                    result.getListe_jerk_y().add(row.getCell(11).getNumericCellValue());
+                }
+
+            }
+            XSSFRow row = worksheet.getRow(1);
+            result.setListe_Gauss_x(mathTools.normalDensityX(-100, 100));
+            result.setListe_Gauss_y(mathTools.normalDensityY(result.getListe_Gauss_x()));
+
+            double valeurPatient = mathTools.normalDensity(row.getCell(13).getNumericCellValue()
+                    / row.getCell(14).getNumericCellValue());
+
+            result.setPatientValue(valeurPatient);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
