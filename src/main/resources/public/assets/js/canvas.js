@@ -10,14 +10,13 @@ color = "#000";
 canvas_draw.width = canvas_draw.parentNode.offsetWidth - 10;
 canvas_draw.height = canvas_draw.parentNode.offsetHeight - 10;
 
-
 //change pen color
 function changeColor() {
     color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 }
 
 function initCanvas() {
-    var oCanvas = document.getElementById("canvas_draw");
+    let oCanvas = document.getElementById("canvas_draw");
     oCanvas.bDraw = false;
     oCtx = oCanvas.getContext('2d');
     oCanvas.addEventListener("mousedown", downDrawligne);
@@ -96,10 +95,9 @@ function upDrawligne(oEvent) {
  * Vide les dessin du canvas
  */
 function nettoyer(oEvent) {
-    var oCanvas = document.getElementById("canvas_draw"),
+    let oCanvas = document.getElementById("canvas_draw"),
         oCtx = oCanvas.getContext('2d');
     oCtx.clearRect(0, 0, oCanvas.width, oCanvas.height);
-    capturer(false);
     liste_point=[];
 }
 

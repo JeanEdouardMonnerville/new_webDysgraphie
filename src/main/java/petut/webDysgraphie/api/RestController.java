@@ -255,7 +255,12 @@ public class RestController {
         String token = request.getHeader("token");
         analyseController.finDeSession(token);
     }
-    
+    /**
+     * Lien: POST resultat/import 
+     * 
+     * @param excelfile Document format xls, xlsx ou csv.
+     * @return L'ensemble des listes de point nécessaire à la construction des graphs. 
+     */
     @PostMapping(value="resultat/import")
     public GraphResponseImportExcel imports(@RequestParam("excelFile") MultipartFile excelfile) {
        return analyseController.importexcel(excelfile);
